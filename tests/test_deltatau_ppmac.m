@@ -3,7 +3,7 @@ clc
 
 [cDirThis, cName, cExt] = fileparts(mfilename('fullpath'));
 cDirSrc = fullfile(cDirThis, '..');
-cDirVendor = fullfile(cDirScr, 'vendor');
+cDirVendor = fullfile(cDirSrc, 'vendor');
 
 % Add src
 addpath(genpath(fullfile(cDirSrc)))

@@ -434,6 +434,9 @@ classdef PowerPmac < handle
             
         end
         
+        function msg(this, cMsg)
+            fprintf('deltatau.PowerPmac %s\n', cMsg);
+        end
     end
     
 end
