@@ -27,8 +27,6 @@ classdef PowerPMAC < handle
         
         % {char 1xm} ssh password
         cPassword = 'deltatau';
-
-        
         
         dTimeout = 5
     end
@@ -426,14 +424,6 @@ classdef PowerPMAC < handle
     
     
     methods (Access = protected)
-        
-        
-        
-        
-        
-        
-        
-        
         
         function l = hasProp(this, c)
             
