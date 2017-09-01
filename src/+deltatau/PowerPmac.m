@@ -1,4 +1,4 @@
-classdef PowerPMAC < handle
+classdef PowerPmac < handle
         
 
     properties (Constant)
@@ -33,7 +33,7 @@ classdef PowerPMAC < handle
     
     methods
         
-        function this = PowerPMAC(varargin)
+        function this = PowerPmac(varargin)
                         
             for k = 1 : 2: length(varargin)
                 this.msg(sprintf('passed in %s', varargin{k}));

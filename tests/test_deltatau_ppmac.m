@@ -11,9 +11,11 @@ addpath(genpath(fullfile(cDirSrc)))
 % Add vendor ssh
 addpath(genpath(fullfile(cDirVendor, 'fileexchange', 'ssh2_v2_m1_r6')));
 
-cHost = '198.128.220.144'; % chris mpb at LBNL
-cUser = 'cnanderson';
-cPass = 'For/24an';
+cHost = '192.168.20.23'; % MET5 endstation subnet
 
-ppmac = deltatau.PowerPmac
+ppmac = deltatau.PowerPmac(...
+    'cHost', cHost ...
+);
+
+ppmac.init();
 
