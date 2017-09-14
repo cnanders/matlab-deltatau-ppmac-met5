@@ -8,9 +8,8 @@ classdef PowerPmac < handle
     
     properties
         
-        % {struct 1x1} structure with lots of information about the 
-        % ssh connection.  See vendor/fileexchange/ssh2_v2_m1_r6/ssh_setup
-        stSSH
+        % {(java) DeltaTauComm 1x1} 
+        jDeltaTauComm
         
     end
     
@@ -20,7 +19,7 @@ classdef PowerPmac < handle
         % --------------------------------
         
         % {char 1xm} ssh host
-        cHost = '192.168.0.200'
+        cHostname = '192.168.0.200'
         
         % {char 1xm} ssh username
         cUsername = 'root';
@@ -46,26 +45,28 @@ classdef PowerPmac < handle
         
         function init(this)
             try
-               this.stSSH = ssh2_config(this.cHost, this.cUsername, this.cPassword);
-               this.startAsciiInterpreter();
+               this.jDeltaTauComm = DeltaTauComm(this.cHostname, this.cUsername, this.cPassword);
+               % this.startAsciiInterpreter();
+               
             catch ME
                 rethrow(ME)
             end
         end
         
+        %{
         function startAsciiInterpreter(this)
-            this.stSSH = ssh2_command(this.stSSH, 'gpascii -2');             
+            this.jDeltaTauComm.gpasciiInit(); 
+            this.jDeltaTauComm.gpasciiShortAnswers();
         end
+        %}
 
         function connect(this)
             this.msg('connect()');
-            % tcpclient does not need fopen()
-            this.clearBytesAvailable();
         end
         
         function disconnect(this)
             this.msg('disconnect()');
-            ss2_close(this.stSSH);
+            this.jDeltaTauComm.close();
             
         end
         
@@ -395,12 +396,12 @@ classdef PowerPmac < handle
                    
         
         
-        % Send a command and get the result back as ASCII
+        % Send a query command and get the result back as ASCII
         function c = queryChar(this, cCmd)
-            [this.stSSH, c] = ssh2_command(this.stSSH, cCmd);
+            c = this.jDeltaTauComm.gpasciiQuery(cCmd);
         end
         
-        % Send a command and get the result formated as a double
+        % Send a query command and get the result formated as a double
         function d = queryDouble(this, cCmd)
             c = this.queryChar(cCmd);
             % strip leading '#' char
@@ -408,15 +409,15 @@ classdef PowerPmac < handle
             d = str2double(c);
         end
         
-        % Send a command and get the result formatted as a 32-bit int
+        % Send a query command and get the result formatted as a 32-bit int
         function u32 = queryInt32(this, cCmd)
            c = this.queryChar(cCmd);
            u32 = str2num(c);
         end
         
-        % Send a command
+        % Send a "set" command
         function command(this, cCmd)
-            this.stSSH = ssh2_command(this.stSSH, cCmd);
+            this.jDeltaTauComm.gpasciiCommand(cCmd);
         end
         
         
@@ -432,6 +433,10 @@ classdef PowerPmac < handle
                 l = true;
             end
             
+        end
+        
+        function msg(this, cMsg)
+            fprintf('deltatau.PowerPmac: %s\n', cMsg);
         end
         
     end
