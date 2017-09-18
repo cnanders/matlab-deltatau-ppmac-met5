@@ -28,6 +28,39 @@ classdef PowerPmac < handle
         cPassword = 'deltatau';
         
         dTimeout = 5
+        
+        ticMotorStatus1
+        ticMotorStatus2
+        ticEncoderError1
+        ticEncoderError2
+        ticMotorError1
+        ticMotorError2 % same page
+        ticCSError1
+        ticCSStatus1
+        ticGlobError
+        ticMET50Error
+        ticIOInfo
+        
+        tocMin = 1;
+        
+        
+        % storage for status data to serve if asked for 
+        % more often than every tocMin seconds
+        
+        motorStatus1
+        motorStatus2
+        encoderError1
+        encoderError2
+        motorError1
+        motorError2 % same page
+        csError1
+        csStatus1
+        globError
+        met50Error
+        ioInfo
+        
+        
+        
     end
     
     methods
@@ -77,54 +110,54 @@ classdef PowerPmac < handle
         
         
         function setWorkingModeUndefined(this)
-            cCmd = sprintf('newWorkingMode=0');
+            cCmd = sprintf('NewWorkingMode=0');
             this.command(cCmd);
         end
         
         function setWorkingModeActivate(this)
-            cCmd = sprintf('newWorkingMode=1');
+            cCmd = sprintf('NewWorkingMode=1');
             this.command(cCmd);
         end
         
         function setWorkingModeShutdown(this)
-            cCmd = sprintf('newWorkingMode=2');
+            cCmd = sprintf('NewWorkingMode=2');
             this.command(cCmd);
         end
         
         function setWorkingModeRunSetup(this)
-            cCmd = sprintf('newWorkingMode=3');
+            cCmd = sprintf('NewWorkingMode=3');
             this.command(cCmd);
             
         end
         
         function setWorkingModeRunExposure(this)
-            cCmd = sprintf('newWorkingMode=4');
+            cCmd = sprintf('NewWorkingMode=4');
             this.command(cCmd);
         end
         
         function setWorkingModeRun(this)
-            cCmd = sprintf('newWorkingMode=5');
+            cCmd = sprintf('NewWorkingMode=5');
             this.command(cCmd);
         end
         
         function setWorkingModeLsiRun(this)
-            cCmd = sprintf('newWorkingMode=6');
+            cCmd = sprintf('NewWorkingMode=6');
             this.command(cCmd);
         end
         
         function setWorkingModeWaferTransfer(this)
-            cCmd = sprintf('newWorkingMode=7');
+            cCmd = sprintf('NewWorkingMode=7');
             this.command(cCmd);
         end
         
         function setWorkingModeReticleTransfer(this)
-            cCmd = sprintf('newWorkingMode=8');
+            cCmd = sprintf('NewWorkingMode=8');
             this.command(cCmd);
         end
         
         % Returns the working mode formatted as a double
         function d = getActiveWorkingMode(this)
-            cCmd = sprintf('actWorkingMode');
+            cCmd = sprintf('ActWorkingMode');
             d = this.queryDouble(cCmd);
         end
         
@@ -216,61 +249,585 @@ classdef PowerPmac < handle
             d = this.queryDouble(cCmd);
         end
         
+       %{
+                
+        % If seen, the corresponding Hydra should be power cycled
+                
+        % Shows that the servo loop inside 712 controller is not
+        % enabled. This can be done with newWorkingMode = wm_ACTIVATE
+        
+       
+        
+       
+        
+        %}
+        
+        function l = getMotorErrorHomingWaferCoarseX(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('100')));
+        end
+        
+        function l = getMotorErrorHomingWaferCoarseY(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('300')));
+        end
+        
+        function l = getMotorErrorHomingReticleCoarseX(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('400')));
+        end
+        
+        function l = getMotorErrorHomingReticleCoarseY(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('800')));
+        end
+        
+        function l = getMotorErrorHomingLsiCoarseY(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('1000')));
+        end
+        
+        
+        % Hydra 1
+        function l = getMotorErrorWaferCoarseX(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('10000')));
+        end
+        
+        function l = getMotorErrorWaferCoarseY(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('20000')));
+        end
+        
+        % Hyrda 2
+        function l = getMotorErrorReticleCoarseX(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('40000')));
+        end
+        
+        function l = getMotorErrorReticleCoarseY(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('80000')));
+        end
+        
+        % Hydra 3
+        function l = getMotorErrorLsiCoarseX(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('100000')));
+        end
+                
+               
+        function l = getMotorErrorWaferCoarseZ(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('200000')));
+        end
+        
+        function l = getMotorErrorWaferCoarseTip(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('400000')));
+        end
+        
+        function l = getMotorErrorWaferCoarseTilt(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('800000')));
+        end
+        
+        function l = getMotorErrorWaferFineZ(this)
+            l = logical(bitand(this.getMotorError2(), hex2dec('10000')));
+        end
+        
+        
+        function l = getMotorErrorReticleCoarseZ(this)
+            l = logical(bitand(this.getMotorError2(), hex2dec('20000')));
+        end
+        
+        function l = getMotorErrorReticleCoarseTip(this)
+            l = logical(bitand(this.getMotorError2(), hex2dec('40000')));
+        end
+        
+        function l = getMotorErrorReticleCoarseTilt(this)
+            l = logical(bitand(this.getMotorError2(), hex2dec('80000')));
+        end
+        
+        function l = getMotorErrorReticleFineX(this)
+            l = logical(bitand(this.getMotorError2(), hex2dec('100000')));
+        end
+        
+        function l = getMotorErrorReticleFineY(this)
+            l = logical(bitand(this.getMotorError2(), hex2dec('200000')));
+        end
+         
+                 
+         
+        function l = getMotorErrorAlteraWaferCoarseX(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('1000000')));
+        end
+        
+        function l = getMotorErrorAlteraWaferCoarseY(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('2000000')));
+        end
+        
+        function l = getMotorErrorAlteraReticleCoarseX(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('4000000')));
+        end
+        
+        function l = getMotorErrorAlteraReticleCoarseY(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('8000000')));
+        end
+        
+        function l = getMotorErrorAlteraLsiCoarseX(this)
+            l = logical(bitand(this.getMotorError1(), hex2dec('10000000')));
+        end
+        
+        
+        
+        
         % Returns locical {1x1}
-        function l = getWaferCoarseXIsMoving(this)
-            l = logical(bitand(this.getMotor1To8Status(), hex2dec('1')));
+        function l = getMotorStatusWaferCoarseXIsMoving(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('1')));
         end
         
-        function l = getWaferCoarseYIsMoving(this)
-            l = logical(bitand(this.getMotor1To8Status(), hex2dec('2')));
+        function l = getMotorStatusWaferCoarseYIsMoving(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('2')));
         end
         
-        function l = getReticleCoarseXIsMoving(this)
-            l = logical(bitand(this.getMotor1To8Status(), hex2dec('4')));
+        function l = getMotorStatusReticleCoarseXIsMoving(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('4')));
         end
         
-        function l = getReticleCoarseYIsMoving(this)
-            l = logical(bitand(this.getMotor1To8Status(), hex2dec('8')));
+        function l = getMotorStatusReticleCoarseYIsMoving(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('8')));
         end
         
-        function l = getLsiCoarseXIsMoving(this)
-            l = logical(bitand(this.getMotor1To8Status(), hex2dec('10')));
+        function l = getMotorStatusLsiCoarseXIsMoving(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('10')));
         end
         
-        function l = getWaferCoarseZIsMoving(this)
-            l = logical(bitand(this.getMotor1To8Status(), hex2dec('20')));
+        function l = getMotorStatusWaferCoarseZIsMoving(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('20')));
         end
         
-        function l = getWaferCoarseTipIsMoving(this)
-            l = logical(bitand(this.getMotor1To8Status(), hex2dec('40')));
+        function l = getMotorStatusWaferCoarseTipIsMoving(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('40')));
         end
         
-        function l = getWaferCoarseTiltIsMoving(this)
-            l = logical(bitand(this.getMotor1To8Status(), hex2dec('80')));
+        function l = getMotorStatusWaferCoarseTiltIsMoving(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('80')));
         end
         
-        function l = getWaferFineZIsMoving(this)
-            l = logical(bitand(this.getMotor9To14Status(), hex2dec('1')));
+        function l = getMotorStatusWaferFineZIsMoving(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('1')));
         end
         
-        function l = getReticleCoarseZIsMoving(this)
-            l = logical(bitand(this.getMotor9To14Status(), hex2dec('2')));
+        function l = getMotorStatusReticleCoarseZIsMoving(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('2')));
         end
         
-        function l = getReticleCoarseTipIsMoving(this)
-            l = logical(bitand(this.getMotor9To14Status(), hex2dec('4')));
+        function l = getMotorStatusReticleCoarseTipIsMoving(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('4')));
         end
         
-        function l = getReticleCoarseTiltIsMoving(this)
-            l = logical(bitand(this.getMotor9To14Status(), hex2dec('8')));
+        function l = getMotorStatusReticleCoarseTiltIsMoving(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('8')));
         end
         
-        function l = getReticleFineXIsMoving(this)
-            l = logical(bitand(this.getMotor9To14Status(), hex2dec('10')));
+        function l = getMotorStatusReticleFineXIsMoving(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('10')));
         end
         
-        function l = getReticleFineYIsMoving(this)
-            l = logical(bitand(this.getMotor9To14Status(), hex2dec('20')));
+        function l = getMotorStatusReticleFineYIsMoving(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('20')));
+        end
+        
+        % EncoderError (loss)
+        
+        function l = getEncoderErrorLossWaferCoarseX(this)
+            l = logical(bitand(this.getEncoderError1(), hex2dec('1')));
+        end
+        
+        function l = getEncoderErrorLossWaferCoarseY(this)
+            l = logical(bitand(this.getEncoderError1(), hex2dec('2')));
+        end
+        function l = getEncoderErrorLossReticleCoarseX(this)
+            l = logical(bitand(this.getEncoderError1(), hex2dec('4')));
+        end
+        function l = getEncoderErrorLossReticleCoarseY(this)
+            l = logical(bitand(this.getEncoderError1(), hex2dec('8')));
+        end
+        function l = getEncoderErrorLossLsiCoarseX(this)
+            l = logical(bitand(this.getEncoderError1(), hex2dec('10')));
+        end
+        
+        % EncoderError Error
+        
+        function l = getEncoderErrorWaferCoarseX(this)
+            l = logical(bitand(this.getEncoderError1(), hex2dec('100')));
+        end
+        
+        function l = getEncoderErrorWaferCoarseY(this)
+            l = logical(bitand(this.getEncoderError1(), hex2dec('200')));
+        end
+        function l = getEncoderErrorReticleCoarseX(this)
+            l = logical(bitand(this.getEncoderError1(), hex2dec('400')));
+        end
+        function l = getEncoderErrorReticleCoarseY(this)
+            l = logical(bitand(this.getEncoderError1(), hex2dec('800')));
+        end
+        function l = getEncoderErrorLsiCoarseX(this)
+            l = logical(bitand(this.getEncoderError1(), hex2dec('1000')));
+        end
+        
+        
+        function l = getEncoderErrorWaferCoarseZ(this)
+            l = logical(bitand(this.getEncoderError1(), hex2dec('2000')));
+        end
+        function l = getEncoderErrorWaferCoarseTip(this)
+            l = logical(bitand(this.getEncoderError1(), hex2dec('4000')));
+        end
+        
+        function l = getEncoderErrorWaferCoarseTilt(this)
+            l = logical(bitand(this.getEncoderError1(), hex2dec('8000')));
+        end
+        
+        function l = getEncoderErrorWaferFineZ(this)
+            l = logical(bitand(this.getEncoderError2(), hex2dec('100')));
+        end
+        
+        function l = getEncoderErrorReticleCoarseZ(this)
+            l = logical(bitand(this.getEncoderError2(), hex2dec('200')));
+        end
+        
+        function l = getEncoderErrorReticleCoarseTip(this)
+            l = logical(bitand(this.getEncoderError2(), hex2dec('400')));
+        end
+        
+        function l = getEncoderErrorReticleCoarseTilt(this)
+            l = logical(bitand(this.getEncoderError2(), hex2dec('800')));
+        end
+        
+        function l = getEncoderErrorReticleFineX(this)
+            l = logical(bitand(this.getEncoderError2(), hex2dec('1000')));
+        end
+        
+        function l = getEncoderErrorReticleFineY(this)
+            l = logical(bitand(this.getEncoderError2(), hex2dec('2000')));
+        end
+        
+        
+        
+        
+        % CSError (runtime)
+        
+        function l = getCsErrorWaferCoarseRunTime(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('1')));
+        end
+        
+        function l = getCsErrorReticleCoarseRunTime(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('2')));
+        end
+        
+        
+        function l = getCsErrorWaferFineRunTime(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('4')));
+        end
+        
+        function l = getCsErrorReticleFineRunTime(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('8')));
+        end
+        
+        function l = getCsErrorRLsiCoarseRunTime(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('10')));
+        end
+        
+        % CSError (limit stop)
+        
+        function l = getCsErrorWaferCoarseLimitStop(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('100')));
+        end
+        
+        function l = getCsErrorReticleCoarseLimitStop(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('200')));
+        end
+        
+        
+        function l = getCsErrorWaferFineLimitStop(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('400')));
+        end
+        
+        function l = getCsErrorReticleFineLimitStop(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('800')));
+        end
+        
+        function l = getCsErrorRLsiCoarseLimitStop(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('1000')));
+        end
+        
+        
+        % CSError (error status)
+        
+        function l = getCsErrorWaferCoarseErrorStatus(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('10000')));
+        end
+        
+        function l = getCsErrorReticleCoarseErrorStatus(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('20000')));
+        end
+        
+        
+        function l = getCsErrorWaferFineErrorStatus(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('40000')));
+        end
+        
+        function l = getCsErrorReticleFineErrorStatus(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('80000')));
+        end
+        
+        function l = getCsErrorRLsiCoarseErrorStatus(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('100000')));
+        end
+        
+        
+        % CSError (soft limit)
+        
+        function l = getCsErrorWaferCoarseSoftLimit(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('1000000')));
+        end
+        
+        function l = getCsErrorReticleCoarseSoftLimit(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('2000000')));
+        end
+        
+        
+        function l = getCsErrorWaferFineSoftLimit(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('4000000')));
+        end
+        
+        function l = getCsErrorReticleFineSoftLimit(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('8000000')));
+        end
+        
+        function l = getCsErrorRLsiCoarseSoftLimit(this)
+            l = logical(bitand(this.getCsError1(), hex2dec('10000000')));
+        end
+        
+        
+                
+        % CSStatus (program running)
+        
+        function l = getCsStatusWaferCoarseProgramRunning(this)
+            l = logical(bitand(this.getCsStatus1(), hex2dec('1')));
+        end
+        
+        function l = getCsStatusReticleCoarseProgramRunning(this)
+            l = logical(bitand(this.getCsStatus1(), hex2dec('2')));
+        end
+        
+        
+        function l = getCsStatusWaferFineProgramRunning(this)
+            l = logical(bitand(this.getCsStatus1(), hex2dec('4')));
+        end
+        
+        function l = getCsStatusReticleFineProgramRunning(this)
+            l = logical(bitand(this.getCsStatus1(), hex2dec('8')));
+        end
+        
+        function l = getCsStatusRLsiCoarseProgramRunning(this)
+            l = logical(bitand(this.getCsStatus1(), hex2dec('10')));
+        end
+        
+        
+        % CSStatus (not homed)
+        
+        function l = getCsStatusWaferCoarseNotHomed(this)
+            l = logical(bitand(this.getCsStatus1(), hex2dec('100')));
+        end
+        
+        function l = getCsStatusReticleCoarseNotHomed(this)
+            l = logical(bitand(this.getCsStatus1(), hex2dec('200')));
+        end
+        
+        
+        function l = getCsStatusWaferFineNotHomed(this)
+            l = logical(bitand(this.getCsStatus1(), hex2dec('400')));
+        end
+        
+        function l = getCsStatusReticleFineNotHomed(this)
+            l = logical(bitand(this.getCsStatus1(), hex2dec('800')));
+        end
+        
+        function l = getCsStatusRLsiCoarseNotHomed(this)
+            l = logical(bitand(this.getCsStatus1(), hex2dec('1000')));
+        end
+        
+        
+        
+        
+        % CSStatus (timebase deviation)
+        
+        function l = getCsStatusWaferCoarseTimebaseDeviation(this)
+            l = logical(bitand(this.getCsStatus1(), hex2dec('1000000')));
+        end
+        
+        function l = getCsStatusReticleCoarseTimebaseDeviation(this)
+            l = logical(bitand(this.getCsStatus1(), hex2dec('2000000')));
+        end
+        
+        
+        function l = getCsStatusWaferFineTimebaseDeviation(this)
+            l = logical(bitand(this.getCsStatus1(), hex2dec('4000000')));
+        end
+        
+        function l = getCsStatusReticleFineTimebaseDeviation(this)
+            l = logical(bitand(this.getCsStatus1(), hex2dec('8000000')));
+        end
+        
+        function l = getCsStatusRLsiCoarseTimebaseDeviation(this)
+            l = logical(bitand(this.getCsStatus1(), hex2dec('10000000')));
+        end
+        
+        
+        
+        function l = getGlobErrorNoClocks(this)
+            l = logical(bitand(this.getGlobError(), hex2dec('1')));
+        end
+        
+        function l = getGlobErrorWdtFault(this)
+            l = logical(bitand(this.getGlobError(), hex2dec('2')));
+        end
+        
+        function l = getGlobErrorHwChangeError(this)
+            l = logical(bitand(this.getGlobError(), hex2dec('4')));
+        end
+        
+        function l = getGlobErrorSysPhaseErrorCtr(this)
+            l = logical(bitand(this.getGlobError(), hex2dec('100')));
+        end
+        
+        function l = getGlobErrorSysServoBusyCtr(this)
+            l = logical(bitand(this.getGlobError(), hex2dec('400')));
+        end
+        
+        function l = getGlobErrorSysServoErrorCtr(this)
+            l = logical(bitand(this.getGlobError(), hex2dec('800')));
+        end
+        
+        function l = getGlobErrorSysRtIntBusyCtr(this)
+            l = logical(bitand(this.getGlobError(), hex2dec('1000')));
+        end
+        
+        function l = getGlobErrorSysRtIntErrorCtr(this)
+            l = logical(bitand(this.getGlobError(), hex2dec('2000')));
+        end
+        
+        % MET50 Errors
+        
+        % 712 Read / Write Error
+        
+        function l = getMet50Error7121WriteError(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('1')));
+        end
+        
+        function l = getMet50Error7121ReadError(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('4')));
+        end
+        
+        function l = getMet50Error7122WriteError(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('2')));
+        end
+        
+        function l = getMet50Error7122ReadError(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('8')));
+        end
+        
+        % Hydra Not Connected
+        
+        function l = getMet50ErrorHydra1NotConnected(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('10')));
+        end
+        
+        function l = getMet50ErrorHydra2NotConnected(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('20')));
+        end
+        
+        function l = getMet50ErrorHydra3NotConnected(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('40')));
+        end
+        
+        % Hydra Machine Error
+        
+        function l = getMet50ErrorHydra1MachineError(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('100')));
+        end
+        
+        function l = getMet50ErrorHydra2MachineError(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('200')));
+        end
+        
+        function l = getMet50ErrorHydra3MachineError(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('400')));
+        end
+        
+        % 712 Not Connected
+        
+        function l = getMet50Error7121NotConnected(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('1000')));
+        end
+        
+        function l = getMet50Error7122NotConnected(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('2000')));
+        end
+        
+        function l = getMet50ErrorModBusNotConnected(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('10000')));
+        end
+        
+        function l = getMet50ErrorHsStatus(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('20000')));
+        end
+        
+        function l = getMet50ErrorDmiStatus(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('40000')));
+        end
+        
+        function l = getMet50ErrorCAppNotRunning(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('80000')));
+        end
+        
+        function l = getMet50ErrorMoxaNotConnected(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('100000')));
+        end
+        
+        function l = getMet50ErrorTemperatureWarning(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('200000')));
+        end
+        
+        function l = getMet50ErrorTemperatureError(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('400000')));
+        end
+        
+        function l = getMet50ErrorProximitySwitchWaferXLsi(this)
+            l = logical(bitand(this.getMET50Error(), hex2dec('800000')));
+        end
+        
+        % IO Info
+        function l = getIoInfoLockWaferPosition(this)
+            l = logical(bitand(this.getIoInfo(), hex2dec('1')));
+        end
+        
+        function l = getIoInfoLockReticlePosition(this)
+            l = logical(bitand(this.getIoInfo(), hex2dec('2')));
+        end
+        
+        function l = getIoInfoEnableSystemIsZero(this)
+            l = logical(bitand(this.getIoInfo(), hex2dec('4')));
+        end
+        
+        
+        function l = getIoInfoAtWaferTransferPosition(this)
+            l = logical(bitand(this.getIoInfo(), hex2dec('100')));
+        end
+        
+        function l = getIoInfoAtReticleTransferPosition(this)
+            l = logical(bitand(this.getIoInfo(), hex2dec('200')));
+        end
+        
+        function l = getIoInfoWaferPositionLocked(this)
+            l = logical(bitand(this.getIoInfo(), hex2dec('400')));
+        end
+        
+        function l = getIoInfoReticlePositionLocked(this)
+            l = logical(bitand(this.getIoInfo(), hex2dec('800')));
+        end
+        
+        function l = getIoInfoSystemEnabledIsZero(this)
+            l = logical(bitand(this.getIoInfo(), hex2dec('1000')));
         end
         
         % Returns the Motor 1 to Motor 8 32-bit integer status
@@ -278,18 +835,143 @@ classdef PowerPmac < handle
         % can be bitand ed to get moving, open loop, on neg limit, and on
         % pos limit of motors 1 - 8.  Motor number assignments are on page
         % 8 of the PPMAC_LBNL_2_6.doc
-        function u32 = getMotor1To8Status(this)
+        function u32 = getMotorStatus1(this)
+            
+            if ~empty(this.ticMotorStatus1)
+                if (toc(this.ticMotorStatus1) < this.tocMin)
+                    u32 = this.motorStatus1;
+                    return;
+                end
+            end
             cCmd = 'PMACMotorStatus1';
             u32 = this.queryInt32(cCmd);
+            this.motorStatus1 = u32;
         end
         
-        % See getMotor1To8Status
-        function u32 = getMotor9To14Status(this)
+        % See getMotorStatus1
+        function u32 = getMotorStatus2(this)
+            
+            if ~empty(this.ticMotorStatus2)
+                if (toc(this.ticMotorStatus2) < this.tocMin)
+                    u32 = this.motorStatus2;
+                    return;
+                end
+            end
+            
             cCmd = 'PMACMotorStatus2';
             u32 = this.queryInt32(cCmd);
+            this.motorStatus2 = u32;
         end
         
+        function u32 = getEncoderError1(this)
+            
+            if ~empty(this.ticEncoderError1)
+                if (toc(this.ticEncoderError1) < this.tocMin)
+                    u32 = this.encoderError1;
+                    return;
+                end
+            end
+            cCmd = 'PMACEncoderError1';
+            u32 = this.queryInt32(cCmd);
+            this.encoderError1 = u32;
+        end
         
+        function u32 = getEncoderError2(this)
+            if ~empty(this.ticEncoderError2)
+                if (toc(this.ticEncoderError2) < this.tocMin)
+                    u32 = this.encoderError2;
+                    return;
+                end
+            end
+            cCmd = 'PMACEncoderError2';
+            u32 = this.queryInt32(cCmd);
+            this.encoderError2 = u32;
+        end
+        
+        function u32 = getMotorError1(this)
+            if ~empty(this.ticMotorError1)
+                if (toc(this.ticMotorError1) < this.tocMin)
+                    u32 = this.motorError1;
+                    return;
+                end
+            end
+            cCmd = 'PMACMotorError1';
+            u32 = this.queryInt32(cCmd);
+            this.motorError1 = u32;
+        end
+        
+        function u32 = getMotorError2(this)
+            if ~empty(this.ticMotorError2)
+                if (toc(this.ticMotorError2) < this.tocMin)
+                    u32 = this.motorError2;
+                    return;
+                end
+            end
+            cCmd = 'PMACMotorError2';
+            u32 = this.queryInt32(cCmd);
+            this.motorError2 = u32;
+        end
+        
+        function u32 = getCsError1(this)
+            if ~empty(this.ticCSError1)
+                if (toc(this.ticCSError1) < this.tocMin)
+                    u32 = this.csError1;
+                    return;
+                end
+            end
+            cCmd = 'PMACCSError1';
+            u32 = this.queryInt32(cCmd);
+            this.csError1 = u32;
+        end
+        
+        function u32 = getCsStatus(this)
+            if ~empty(this.ticCSStatus1)
+                if (toc(this.ticCSStatus1) < this.tocMin)
+                    u32 = this.csStatus1;
+                    return;
+                end
+            end
+            cCmd = 'PMACCSStatus1';
+            u32 = this.queryInt32(cCmd);
+            this.csStatus1 = u32;
+        end
+        
+        function u32 = getGlobError(this)
+            if ~empty(this.ticGlobError)
+                if (toc(this.ticGlobError) < this.tocMin)
+                    u32 = this.globError;
+                    return;
+                end
+            end
+            cCmd = 'PMACGlobError';
+            u32 = this.queryInt32(cCmd);
+            this.globError = u32;
+        end
+        
+        function u32 = getMET50Error(this)
+            if ~empty(this.ticMET50Error)
+                if (toc(this.ticMET50Error) < this.tocMin)
+                    u32 = this.met50Error;
+                    return;
+                end
+            end
+            cCmd = 'PMACMET50Error';
+            u32 = this.queryInt32(cCmd);
+            this.met50Error = u32;
+        end
+        
+        function u32 = getIoInfo(this)
+            if ~empty(this.ticIOInfo)
+                if (toc(this.ticIOInfo) < this.tocMin)
+                    u32 = this.ioInfo;
+                    return;
+                end
+            end
+            cCmd = 'PMACIOInfo';
+            u32 = this.queryInt32(cCmd);
+            this.ioInfo = u32;
+        end
+                        
         %% Setters
         
         % @param {double 1x1} dVal - mm
