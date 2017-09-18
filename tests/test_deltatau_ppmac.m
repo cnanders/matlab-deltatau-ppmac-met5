@@ -12,13 +12,12 @@ addpath(genpath(fullfile(cDirSrc)))
 javaaddpath(fullfile(cDirVendor, 'ganymed-ssh2-build250', 'ganymed-ssh2-build250.jar'));
 
 % Add vendor ssh
-addpath(genpath(fullfile(cDirVendor, 'fileexchange', 'ssh2_v2_m1_r6')));
+javaaddpath(fullfile(cDirVendor, 'cnanderson', 'deltatau-power-pmac-comm-jre1.7.jar'));
 
-% Add 
-cHost = '192.168.20.23'; % MET5 endstation subnet
+cHostname = '192.168.20.23'; % MET5 endstation subnet
 
 ppmac = deltatau.PowerPmac(...
-    'cHost', cHost ...
+    'cHostname', cHostname ...
 );
 
 % ppmac.init();
