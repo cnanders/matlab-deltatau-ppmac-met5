@@ -837,7 +837,7 @@ classdef PowerPmac < handle
         % 8 of the PPMAC_LBNL_2_6.doc
         function u32 = getMotorStatus1(this)
             
-            if ~empty(this.ticMotorStatus1)
+            if ~isempty(this.ticMotorStatus1)
                 if (toc(this.ticMotorStatus1) < this.tocMin)
                     u32 = this.motorStatus1;
                     return;
@@ -851,7 +851,7 @@ classdef PowerPmac < handle
         % See getMotorStatus1
         function u32 = getMotorStatus2(this)
             
-            if ~empty(this.ticMotorStatus2)
+            if ~isempty(this.ticMotorStatus2)
                 if (toc(this.ticMotorStatus2) < this.tocMin)
                     u32 = this.motorStatus2;
                     return;
@@ -865,7 +865,7 @@ classdef PowerPmac < handle
         
         function u32 = getEncoderError1(this)
             
-            if ~empty(this.ticEncoderError1)
+            if ~isempty(this.ticEncoderError1)
                 if (toc(this.ticEncoderError1) < this.tocMin)
                     u32 = this.encoderError1;
                     return;
@@ -877,7 +877,7 @@ classdef PowerPmac < handle
         end
         
         function u32 = getEncoderError2(this)
-            if ~empty(this.ticEncoderError2)
+            if ~isempty(this.ticEncoderError2)
                 if (toc(this.ticEncoderError2) < this.tocMin)
                     u32 = this.encoderError2;
                     return;
@@ -889,7 +889,7 @@ classdef PowerPmac < handle
         end
         
         function u32 = getMotorError1(this)
-            if ~empty(this.ticMotorError1)
+            if ~isempty(this.ticMotorError1)
                 if (toc(this.ticMotorError1) < this.tocMin)
                     u32 = this.motorError1;
                     return;
@@ -901,7 +901,7 @@ classdef PowerPmac < handle
         end
         
         function u32 = getMotorError2(this)
-            if ~empty(this.ticMotorError2)
+            if ~isempty(this.ticMotorError2)
                 if (toc(this.ticMotorError2) < this.tocMin)
                     u32 = this.motorError2;
                     return;
@@ -913,7 +913,7 @@ classdef PowerPmac < handle
         end
         
         function u32 = getCsError1(this)
-            if ~empty(this.ticCSError1)
+            if ~isempty(this.ticCSError1)
                 if (toc(this.ticCSError1) < this.tocMin)
                     u32 = this.csError1;
                     return;
@@ -925,7 +925,7 @@ classdef PowerPmac < handle
         end
         
         function u32 = getCsStatus(this)
-            if ~empty(this.ticCSStatus1)
+            if ~isempty(this.ticCSStatus1)
                 if (toc(this.ticCSStatus1) < this.tocMin)
                     u32 = this.csStatus1;
                     return;
@@ -937,7 +937,7 @@ classdef PowerPmac < handle
         end
         
         function u32 = getGlobError(this)
-            if ~empty(this.ticGlobError)
+            if ~isempty(this.ticGlobError)
                 if (toc(this.ticGlobError) < this.tocMin)
                     u32 = this.globError;
                     return;
@@ -949,7 +949,7 @@ classdef PowerPmac < handle
         end
         
         function u32 = getMET50Error(this)
-            if ~empty(this.ticMET50Error)
+            if ~isempty(this.ticMET50Error)
                 if (toc(this.ticMET50Error) < this.tocMin)
                     u32 = this.met50Error;
                     return;
@@ -961,7 +961,7 @@ classdef PowerPmac < handle
         end
         
         function u32 = getIoInfo(this)
-            if ~empty(this.ticIOInfo)
+            if ~isempty(this.ticIOInfo)
                 if (toc(this.ticIOInfo) < this.tocMin)
                     u32 = this.ioInfo;
                     return;
