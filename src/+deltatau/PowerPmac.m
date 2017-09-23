@@ -269,23 +269,23 @@ classdef PowerPmac < handle
         
         %}
         
-        function l = getMotorErrorHomingWaferCoarseX(this)
+        function l = getMotorErrorWaferCoarseXHoming(this)
             l = logical(bitand(this.getMotorError1(), hex2dec('100')));
         end
         
-        function l = getMotorErrorHomingWaferCoarseY(this)
+        function l = getMotorErrorWaferCoarseYHoming(this)
             l = logical(bitand(this.getMotorError1(), hex2dec('300')));
         end
         
-        function l = getMotorErrorHomingReticleCoarseX(this)
+        function l = getMotorErrorReticleCoarseXHoming(this)
             l = logical(bitand(this.getMotorError1(), hex2dec('400')));
         end
         
-        function l = getMotorErrorHomingReticleCoarseY(this)
+        function l = getMotorErrorReticleCoarseYHoming(this)
             l = logical(bitand(this.getMotorError1(), hex2dec('800')));
         end
         
-        function l = getMotorErrorHomingLsiCoarseY(this)
+        function l = getMotorErrorLsiCoarseXHoming(this)
             l = logical(bitand(this.getMotorError1(), hex2dec('1000')));
         end
         
@@ -353,23 +353,23 @@ classdef PowerPmac < handle
          
                  
          
-        function l = getMotorErrorAlteraWaferCoarseX(this)
+        function l = getMotorErrorWaferCoarseXAltera(this)
             l = logical(bitand(this.getMotorError1(), hex2dec('1000000')));
         end
         
-        function l = getMotorErrorAlteraWaferCoarseY(this)
+        function l = getMotorErrorWaferCoarseYAltera(this)
             l = logical(bitand(this.getMotorError1(), hex2dec('2000000')));
         end
         
-        function l = getMotorErrorAlteraReticleCoarseX(this)
+        function l = getMotorErrorReticleCoarseXAltera(this)
             l = logical(bitand(this.getMotorError1(), hex2dec('4000000')));
         end
         
-        function l = getMotorErrorAlteraReticleCoarseY(this)
+        function l = getMotorErrorReticleCoarseYAltera(this)
             l = logical(bitand(this.getMotorError1(), hex2dec('8000000')));
         end
         
-        function l = getMotorErrorAlteraLsiCoarseX(this)
+        function l = getMotorErrorLsiCoarseXAltera(this)
             l = logical(bitand(this.getMotorError1(), hex2dec('10000000')));
         end
         
@@ -529,7 +529,7 @@ classdef PowerPmac < handle
             l = logical(bitand(this.getCsError1(), hex2dec('8')));
         end
         
-        function l = getCsErrorRLsiCoarseRunTime(this)
+        function l = getCsErrorLsiCoarseRunTime(this)
             l = logical(bitand(this.getCsError1(), hex2dec('10')));
         end
         
@@ -552,7 +552,7 @@ classdef PowerPmac < handle
             l = logical(bitand(this.getCsError1(), hex2dec('800')));
         end
         
-        function l = getCsErrorRLsiCoarseLimitStop(this)
+        function l = getCsErrorLsiCoarseLimitStop(this)
             l = logical(bitand(this.getCsError1(), hex2dec('1000')));
         end
         
@@ -576,7 +576,7 @@ classdef PowerPmac < handle
             l = logical(bitand(this.getCsError1(), hex2dec('80000')));
         end
         
-        function l = getCsErrorRLsiCoarseErrorStatus(this)
+        function l = getCsErrorLsiCoarseErrorStatus(this)
             l = logical(bitand(this.getCsError1(), hex2dec('100000')));
         end
         
@@ -600,7 +600,7 @@ classdef PowerPmac < handle
             l = logical(bitand(this.getCsError1(), hex2dec('8000000')));
         end
         
-        function l = getCsErrorRLsiCoarseSoftLimit(this)
+        function l = getCsErrorLsiCoarseSoftLimit(this)
             l = logical(bitand(this.getCsError1(), hex2dec('10000000')));
         end
         
@@ -625,7 +625,7 @@ classdef PowerPmac < handle
             l = logical(bitand(this.getCsStatus1(), hex2dec('8')));
         end
         
-        function l = getCsStatusRLsiCoarseProgramRunning(this)
+        function l = getCsStatusLsiCoarseProgramRunning(this)
             l = logical(bitand(this.getCsStatus1(), hex2dec('10')));
         end
         
@@ -649,7 +649,7 @@ classdef PowerPmac < handle
             l = logical(bitand(this.getCsStatus1(), hex2dec('800')));
         end
         
-        function l = getCsStatusRLsiCoarseNotHomed(this)
+        function l = getCsStatusLsiCoarseNotHomed(this)
             l = logical(bitand(this.getCsStatus1(), hex2dec('1000')));
         end
         
@@ -675,7 +675,7 @@ classdef PowerPmac < handle
             l = logical(bitand(this.getCsStatus1(), hex2dec('8000000')));
         end
         
-        function l = getCsStatusRLsiCoarseTimebaseDeviation(this)
+        function l = getCsStatusLsiCoarseTimebaseDeviation(this)
             l = logical(bitand(this.getCsStatus1(), hex2dec('10000000')));
         end
         
@@ -764,6 +764,7 @@ classdef PowerPmac < handle
         % 712 Not Connected
         
         function l = getMet50Error7121NotConnected(this)
+           
             l = logical(bitand(this.getMET50Error(), hex2dec('1000')));
         end
         
@@ -800,6 +801,7 @@ classdef PowerPmac < handle
         end
         
         function l = getMet50ErrorProximitySwitchWaferXLsi(this)
+            
             l = logical(bitand(this.getMET50Error(), hex2dec('800000')));
         end
         
@@ -931,7 +933,7 @@ classdef PowerPmac < handle
             this.csError1 = u32;
         end
         
-        function u32 = getCsStatus(this)
+        function u32 = getCsStatus1(this)
             if ~isempty(this.ticCSStatus1)
                 if (toc(this.ticCSStatus1) < this.tocMin)
                     u32 = this.csStatus1;
