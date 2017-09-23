@@ -161,6 +161,13 @@ classdef PowerPmac < handle
             d = this.queryDouble(cCmd);
         end
         
+        % Returns the working mode formatted as a double
+        function d = getNewWorkingMode(this)
+            cCmd = sprintf('NewWorkingMode');
+            d = this.queryDouble(cCmd);
+        end
+        
+        
         %% Getters
         
         % Returns mm
