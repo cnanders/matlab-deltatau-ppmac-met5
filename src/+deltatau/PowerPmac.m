@@ -854,6 +854,7 @@ classdef PowerPmac < handle
             end
             cCmd = 'PMACMotorStatus1';
             u32 = this.queryInt32(cCmd);
+            this.ticMotorStatus1 = tic();
             this.motorStatus1 = u32;
         end
         
@@ -869,6 +870,7 @@ classdef PowerPmac < handle
             
             cCmd = 'PMACMotorStatus2';
             u32 = this.queryInt32(cCmd);
+            this.ticMotorStatus2 = tic();
             this.motorStatus2 = u32;
         end
         
@@ -882,6 +884,7 @@ classdef PowerPmac < handle
             end
             cCmd = 'PMACEncoderError1';
             u32 = this.queryInt32(cCmd);
+            this.ticEncoderError1 = tic();
             this.encoderError1 = u32;
         end
         
@@ -894,6 +897,7 @@ classdef PowerPmac < handle
             end
             cCmd = 'PMACEncoderError2';
             u32 = this.queryInt32(cCmd);
+            this.ticEncoderError2 = tic();
             this.encoderError2 = u32;
         end
         
@@ -906,6 +910,7 @@ classdef PowerPmac < handle
             end
             cCmd = 'PMACMotorError1';
             u32 = this.queryInt32(cCmd);
+            this.ticMotorError1 = tic();
             this.motorError1 = u32;
         end
         
@@ -918,6 +923,7 @@ classdef PowerPmac < handle
             end
             cCmd = 'PMACMotorError2';
             u32 = this.queryInt32(cCmd);
+            this.ticMotorError2 = tic();
             this.motorError2 = u32;
         end
         
@@ -930,6 +936,7 @@ classdef PowerPmac < handle
             end
             cCmd = 'PMACCSError1';
             u32 = this.queryInt32(cCmd);
+            this.ticCSError1 = tic();
             this.csError1 = u32;
         end
         
@@ -942,6 +949,7 @@ classdef PowerPmac < handle
             end
             cCmd = 'PMACCSStatus1';
             u32 = this.queryInt32(cCmd);
+            this.ticCSStatus1 = tic();
             this.csStatus1 = u32;
         end
         
@@ -954,6 +962,7 @@ classdef PowerPmac < handle
             end
             cCmd = 'PMACGlobError';
             u32 = this.queryInt32(cCmd);
+            this.ticGlobError = tic();
             this.globError = u32;
         end
         
@@ -966,6 +975,9 @@ classdef PowerPmac < handle
             end
             cCmd = 'PMACMET50Error';
             u32 = this.queryInt32(cCmd);
+            this.ticMET50Error = tic();
+            % dec2hex(u32);
+            % fprintf('deltatau.PowerPmac getMet50Error() HEX: %s\n', dec2hex(u32, 8));
             this.met50Error = u32;
         end
         
@@ -978,6 +990,7 @@ classdef PowerPmac < handle
             end
             cCmd = 'PMACIOInfo';
             u32 = this.queryInt32(cCmd);
+            this.ticIOInfo = tic();
             this.ioInfo = u32;
         end
                         
