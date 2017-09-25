@@ -1,2 +1,7 @@
-# matlab-ppmac-met5
-MATLAB wrapper for MET5 DeltaTau Power PMAC that uses ssh2 protocol.
+# v1.0.1
+
+- Added stopAll() method
+
+# v1.0.0
+
+- Initial commit

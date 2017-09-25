@@ -976,8 +976,13 @@ classdef PowerPmac < handle
             cCmd = 'PMACMET50Error';
             u32 = this.queryInt32(cCmd);
             this.ticMET50Error = tic();
-            % dec2hex(u32);
-            % fprintf('deltatau.PowerPmac getMet50Error() HEX: %s\n', dec2hex(u32, 8));
+            %{
+            cMsg = sprintf(...
+                'deltatau.PowerPmac getMet50Error() HEX: %s\n', ...
+                dec2hex(u32, 8) ...
+            );
+            this.msg(cMsg);
+            %}
             this.met50Error = u32;
         end
         
@@ -1040,7 +1045,7 @@ classdef PowerPmac < handle
                 
         % @param {double 1x1} dVal - mm
         function setReticleCoarseX(this, dVal)
-            cCmd = sprintf('DestCS2X=%1.6f', dVal);
+            cCmd = sprintf('DestCS2X=%1.6f', dVal)
             this.command(cCmd);
             this.command('CommandCode=24');
         end
@@ -1122,6 +1127,10 @@ classdef PowerPmac < handle
         % Send a "set" command
         function command(this, cCmd)
             this.jDeltaTauComm.gpasciiCommand(cCmd);
+        end
+        
+        function stopAll(this)
+            this.jDeltaTauComm.gpasciiCommand('CommandCode=1');
         end
         
         
