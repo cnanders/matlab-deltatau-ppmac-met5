@@ -374,7 +374,7 @@ classdef PowerPmac < handle
         end
         
         
-        
+        %% MotorStatus1
         
         % Returns locical {1x1}
         function l = getMotorStatusWaferCoarseXIsMoving(this)
@@ -394,6 +394,7 @@ classdef PowerPmac < handle
         end
         
         function l = getMotorStatusLsiCoarseXIsMoving(this)
+            % this.msg('getMotorStatusLsiCoarseXIsMoving');
             l = logical(bitand(this.getMotorStatus1(), hex2dec('10')));
         end
         
@@ -408,6 +409,93 @@ classdef PowerPmac < handle
         function l = getMotorStatusWaferCoarseTiltIsMoving(this)
             l = logical(bitand(this.getMotorStatus1(), hex2dec('80')));
         end
+        
+        
+        function l = getMotorStatusOpenLoopWaferCoarseX(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('100')));
+        end
+        function l = getMotorStatusOpenLoopWaferCoarseY(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('200')));
+        end
+        function l = getMotorStatusOpenLoopReticleCoarseX(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('400')));
+        end
+        function l = getMotorStatusOpenLoopReticleCoarseY(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('800')));
+        end
+        
+        function l = getMotorStatusOpenLoopLsiCoarseX(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('1000')));
+        end
+        function l = getMotorStatusOpenLoopWaferCoarseZ(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('2000')));
+        end
+        function l = getMotorStatusOpenLoopWaferCoarseTip(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('4000')));
+        end
+        function l = getMotorStatusOpenLoopWaferCoarseTilt(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('8000')));
+        end
+        
+        function l = getMotorStatusMinusLimitWaferCoarseX(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('10000')));
+        end
+        function l = getMotorStatusMinusLimitWaferCoarseY(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('20000')));
+        end
+        function l = getMotorStatusMinusLimitReticleCoarseX(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('40000')));
+        end
+        function l = getMotorStatusMinusLimitReticleCoarseY(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('80000')));
+        end
+        
+        function l = getMotorStatusMinusLimitLsiCoarseX(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('100000')));
+        end
+        function l = getMotorStatusMinusLimitWaferCoarseZ(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('200000')));
+        end
+        function l = getMotorStatusMinusLimitWaferCoarseTip(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('400000')));
+        end
+        function l = getMotorStatusMinusLimitWaferCoarseTilt(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('800000')));
+        end
+        
+        
+        function l = getMotorStatusPlusLimitWaferCoarseX(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('1000000')));
+        end
+        function l = getMotorStatusPlusLimitWaferCoarseY(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('2000000')));
+        end
+        function l = getMotorStatusPlusLimitReticleCoarseX(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('4000000')));
+        end
+        function l = getMotorStatusPlusLimitReticleCoarseY(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('8000000')));
+        end
+        
+        function l = getMotorStatusPlusLimitLsiCoarseX(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('10000000')));
+        end
+        function l = getMotorStatusPlusLimitWaferCoarseZ(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('20000000')));
+        end
+        function l = getMotorStatusPlusLimitWaferCoarseTip(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('40000000')));
+        end
+        function l = getMotorStatusPlusLimitWaferCoarseTilt(this)
+            l = logical(bitand(this.getMotorStatus1(), hex2dec('80000000')));
+        end
+        
+        
+        
+        
+                
+        %% MotorStatus2
+        
         
         function l = getMotorStatusWaferFineZIsMoving(this)
             l = logical(bitand(this.getMotorStatus2(), hex2dec('1')));
@@ -432,6 +520,77 @@ classdef PowerPmac < handle
         function l = getMotorStatusReticleFineYIsMoving(this)
             l = logical(bitand(this.getMotorStatus2(), hex2dec('20')));
         end
+        
+        
+
+         
+        function l = getMotorStatusOpenLoopWaferFineZ(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('100')));
+        end
+        function l = getMotorStatusOpenLoopReticleCoarseZ(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('200')));
+        end
+        function l = getMotorStatusOpenLoopReticleCoarseTip(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('400')));
+        end
+        function l = getMotorStatusOpenLoopReticleCoarseTilt(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('800')));
+        end
+        
+        function l = getMotorStatusOpenLoopReticleFineX(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('1000')));
+        end
+        function l = getMotorStatusOpenLoopReticleFineY(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('2000')));
+        end
+       
+        
+        function l = getMotorStatusMinusLimitWaferFineZ(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('10000')));
+        end
+        function l = getMotorStatusMinusLimitReticleCoarseZ(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('20000')));
+        end
+        function l = getMotorStatusMinusLimitReticleCoarseTip(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('40000')));
+        end
+        function l = getMotorStatusMinusLimitReticleCoarseTilt(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('80000')));
+        end
+        
+        function l = getMotorStatusMinusLimitReticleFineX(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('100000')));
+        end
+        function l = getMotorStatusMinusLimitReticleFineY(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('200000')));
+        end
+        
+        
+        
+        function l = getMotorStatusPlusLimitWaferFineZ(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('1000000')));
+        end
+        function l = getMotorStatusPlusLimitReticleCoarseZ(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('2000000')));
+        end
+        function l = getMotorStatusPlusLimitReticleCoarseTip(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('4000000')));
+        end
+        function l = getMotorStatusPlusLimitReticleCoarseTilt(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('8000000')));
+        end
+        
+        function l = getMotorStatusPlusLimitReticleFineX(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('10000000')));
+        end
+        function l = getMotorStatusPlusLimitReticleFineY(this)
+            l = logical(bitand(this.getMotorStatus2(), hex2dec('20000000')));
+        end
+        
+        
+        
+        
+        
         
         % EncoderError (loss)
         
