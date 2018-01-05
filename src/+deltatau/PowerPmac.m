@@ -1274,7 +1274,14 @@ classdef PowerPmac < handle
             c = this.queryChar(cCmd);
             % strip leading '#' char
             % c = c(1:end);
-            d = str2double(c);
+            
+            % If there is a timeout, jDeltaTauComm will return an empty
+            % string.  str2double('') returns NaN which is no bueno. 
+            if strcmp(c, '')
+                d = 0;
+            else
+                d = str2double(c);
+            end
         end
         
         % Send a query command and get the result formatted as a 32-bit int
