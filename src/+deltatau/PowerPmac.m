@@ -1292,6 +1292,7 @@ classdef PowerPmac < handle
         
         % Send a "set" command
         function command(this, cCmd)
+            fprintf('deletatau.PowerPmac command(%s)\n', cCmd);
             this.jDeltaTauComm.gpasciiCommand(cCmd);
         end
         
