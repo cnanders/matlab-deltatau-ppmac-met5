@@ -246,7 +246,7 @@ classdef PowerPmac < handle
         
         % Returns um
         function d = getReticleFineY(this)
-            cCmd = 'RepCS4X';
+            cCmd = 'RepCS4Y';
             d = this.queryDouble(cCmd);
         end
         
