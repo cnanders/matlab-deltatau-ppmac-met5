@@ -1160,109 +1160,102 @@ classdef PowerPmac < handle
                         
         %% Setters
         
+        % &2a stops cs2
+        % CXxReady=1 readys the system for new commands.  
+        % update destinatin
+        % CommandCode=24 moves cs2 to destinations
+            
+            
         % @param {double 1x1} dVal - mm
         function setWaferCoarseX(this, dVal)
-            cCmd = sprintf('DestCS1X=%1.6f', dVal);
-            this.command(cCmd);
-            this.command('CommandCode=14');
+            cCmd = sprintf('DestCS1X=%1.6f;', dVal);
+            this.command(['&1a;', 'CSxReady=1;', cCmd, 'CommandCode=14']);
         end
         
         % @param {double 1x1} dVal - mm
         function setWaferCoarseY(this, dVal)
-            cCmd = sprintf('DestCS1Y=%1.6f', dVal);
-            this.command(cCmd);
-            this.command('CommandCode=14');
+            cCmd = sprintf('DestCS1Y=%1.6f;', dVal);
+            this.command(['&1a;', 'CSxReady=1;', cCmd, 'CommandCode=14']);
         end
         
         % @param {double 1x1} dVal - um
         function setWaferCoarseZ(this, dVal)
-            cCmd = sprintf('DestCS1Z=%1.6f', dVal);
-            this.command(cCmd);
-            this.command('CommandCode=14');
+            cCmd = sprintf('DestCS1Z=%1.6f;', dVal);
+            this.command(['&1a;', 'CSxReady=1;', cCmd, 'CommandCode=14']);
         end
         
         % @param {double 1x1} dVal - urad
         function setWaferCoarseTip(this, dVal)
-            cCmd = sprintf('DestCS1A=%1.6f', dVal);
-            this.command(cCmd);
-            this.command('CommandCode=14');
+            cCmd = sprintf('DestCS1A=%1.6f;', dVal);
+            this.command(['&1a;', 'CSxReady=1;', cCmd, 'CommandCode=14']);
         end
         
         % @param {double 1x1} dVal - urad
         function setWaferCoarseTilt(this, dVal)
-            cCmd = sprintf('DestCS1B=%1.6f', dVal);
-            this.command(cCmd);
-            this.command('CommandCode=14');
+            cCmd = sprintf('DestCS1B=%1.6f;', dVal);
+            this.command(['&1a;', 'CSxReady=1;', cCmd, 'CommandCode=14']);
         end
         
         % @param {double 1x1} dVal - um
         function setWaferFineZ(this, dVal)
-            cCmd = sprintf('DestCS3Z=%1.6f', dVal);
-            this.command(cCmd);
-            this.command('CommandCode=34');
+            cCmd = sprintf('DestCS3Z=%1.6f;', dVal);
+            this.command(['&3a;', 'CSxReady=1;', cCmd, 'CommandCode=34']);
         end
                 
         % @param {double 1x1} dVal - mm
         function setReticleCoarseX(this, dVal)
-            cCmd = sprintf('DestCS2X=%1.6f', dVal)
-            this.command(cCmd);
-            this.command('CommandCode=24');
+            cCmd = sprintf('DestCS2X=%1.6f;', dVal);
+            this.command(['&2a;', 'CSxReady=1;', cCmd, 'CommandCode=24']);
         end
         
         % @param {double 1x1} dVal - mm
         function setReticleCoarseY(this, dVal)
-            cCmd = sprintf('DestCS2Y=%1.6f', dVal);
-            this.command(cCmd);
-            this.command('CommandCode=24');
+            cCmd = sprintf('DestCS2Y=%1.6f;', dVal);
+            this.command(['&2a;', 'CSxReady=1;', cCmd, 'CommandCode=24']);
         end
         
         % @param {double 1x1} dVal - um
         function setReticleCoarseZ(this, dVal)
-            cCmd = sprintf('DestCS2Z=%1.6f', dVal);
-            this.command(cCmd);
-            this.command('CommandCode=24');
+            
+            cCmd = sprintf('DestCS2Z=%1.6f;', dVal);
+            this.command(['&2a;', 'CSxReady=1;', cCmd, 'CommandCode=24']);
         end
         
         % @param {double 1x1} dVal - urad
         function setReticleCoarseTip(this, dVal)
-            cCmd = sprintf('DestCS2A=%1.6f', dVal);
-            this.command(cCmd);
-            this.command('CommandCode=24');
+            
+            cCmd = sprintf('DestCS2A=%1.6f;', dVal);
+            this.command(['&2a;', 'CSxReady=1;', cCmd, 'CommandCode=24']);
         end
         
         % @param {double 1x1} dVal - urad
         function setReticleCoarseTilt(this, dVal)
-            cCmd = sprintf('DestCS2B=%1.6f', dVal);
-            this.command(cCmd);
-            this.command('CommandCode=24');
+            cCmd = sprintf('DestCS2B=%1.6f;', dVal);
+            this.command(['&2a;', 'CSxReady=1;', cCmd, 'CommandCode=24']);
         end
         
         
         % @param {double 1x1} dVal - um
         function setReticleFineX(this, dVal)
-            cCmd = sprintf('DestCS4X=%1.6f', dVal);
-            this.command(cCmd);
-            this.command('CommandCode=44');
+            cCmd = sprintf('DestCS4X=%1.6f;', dVal);
+            this.command(['&4a;', 'CSxReady=1;', cCmd, 'CommandCode=44']);
+            
         end
         
         % @param {double 1x1} dVal - um
         function setReticleFineY(this, dVal)
-            cCmd = sprintf('DestCS4X=%1.6f', dVal);
-            this.command(cCmd);
-            this.command('CommandCode=44');
+            cCmd = sprintf('DestCS4Y=%1.6f;', dVal);
+            this.command(['&4a;', 'CSxReady=1;', cCmd, 'CommandCode=44']);
             
         end
         
         
         % @param {double 1x1} dVal - mm
         function setLsiCoarseX(this, dVal)
-            cCmd = sprintf('DestCS5X=%1.6f', dVal);
-            this.command(cCmd);
-            this.command('CommandCode=54');
+            cCmd = sprintf('DestCS5X=%1.6f;', dVal);
+            this.command(['&5a;', 'CSxReady=1;', cCmd, 'CommandCode=54']);
         end
-        
-                   
-        
+                
         
         % Send a query command and get the result back as ASCII
         function c = queryChar(this, cCmd)
