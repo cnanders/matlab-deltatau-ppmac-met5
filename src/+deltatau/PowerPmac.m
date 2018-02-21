@@ -170,6 +170,35 @@ classdef PowerPmac < handle
         
         %% Getters
         
+        % These return true immediately after this coordinate system
+        % is instructed to move to a new destinataino and return false
+        % once the destination is achieved or after stopAll() is called
+        
+        function l = getWaferCoarseXYZTipTiltStarted(this)
+           cCmd = 'CS1Started';
+           l = logical(this.queryInt32(cCmd));
+        end
+        
+        function l = getReticleCoarseXYZTipTiltStarted(this)
+           cCmd = 'CS2Started';
+           l = logical(this.queryInt32(cCmd));
+        end
+        
+        function l = getWaferFineZStarted(this)
+           cCmd = 'CS3Started';
+           l = logical(this.queryInt32(cCmd));
+        end
+        
+        function l = getReticleFineXYStarted(this)
+           cCmd = 'CS4Started';
+           l = logical(this.queryInt32(cCmd));
+        end
+        
+        function l = getLSICoarseXStarted(this)
+           cCmd = 'CS5Started';
+           l = logical(this.queryInt32(cCmd));
+        end
+        
         % Returns mm
         function d = getWaferCoarseX(this)
             cCmd = 'RepCS1X';
@@ -1160,8 +1189,15 @@ classdef PowerPmac < handle
                         
         %% Setters
         
-        % &2a stops cs2
-        % CXxReady=1 readys the system for new commands.  
+        % &1a stops cs1, &2a stops cs2, etc. HOWEVER, stopping doordinate 
+        % system 1, 2, 3, etc. prematurely
+        % will set CSxReady = -2, -4, -8, -16, -32, respectively so need
+        % to change the value of CSxReady before issuing a new CommandCode
+        
+        % CSxReady=1 readys the system for new commands.  
+        % CSxReady=-1 has the benefit of not saying ready.  While the
+        % system is moving, CSxReady = 0.  CSxReady = 1 only after a move
+        % completes
         % update destinatin
         % CommandCode=24 moves cs2 to destinations
             
@@ -1169,83 +1205,83 @@ classdef PowerPmac < handle
         % @param {double 1x1} dVal - mm
         function setWaferCoarseX(this, dVal)
             cCmd = sprintf('DestCS1X=%1.6f;', dVal);
-            this.command(['&1a;', 'CSxReady=1;', cCmd, 'CommandCode=14']);
+            this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
         end
         
         % @param {double 1x1} dVal - mm
         function setWaferCoarseY(this, dVal)
             cCmd = sprintf('DestCS1Y=%1.6f;', dVal);
-            this.command(['&1a;', 'CSxReady=1;', cCmd, 'CommandCode=14']);
+            this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
         end
         
         % @param {double 1x1} dVal - um
         function setWaferCoarseZ(this, dVal)
             cCmd = sprintf('DestCS1Z=%1.6f;', dVal);
-            this.command(['&1a;', 'CSxReady=1;', cCmd, 'CommandCode=14']);
+            this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
         end
         
         % @param {double 1x1} dVal - urad
         function setWaferCoarseTip(this, dVal)
             cCmd = sprintf('DestCS1A=%1.6f;', dVal);
-            this.command(['&1a;', 'CSxReady=1;', cCmd, 'CommandCode=14']);
+            this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
         end
         
         % @param {double 1x1} dVal - urad
         function setWaferCoarseTilt(this, dVal)
             cCmd = sprintf('DestCS1B=%1.6f;', dVal);
-            this.command(['&1a;', 'CSxReady=1;', cCmd, 'CommandCode=14']);
+            this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
         end
         
         % @param {double 1x1} dVal - um
         function setWaferFineZ(this, dVal)
             cCmd = sprintf('DestCS3Z=%1.6f;', dVal);
-            this.command(['&3a;', 'CSxReady=1;', cCmd, 'CommandCode=34']);
+            this.command(['&3a;', 'CSxReady=-1;', cCmd, 'CommandCode=34']);
         end
                 
         % @param {double 1x1} dVal - mm
         function setReticleCoarseX(this, dVal)
             cCmd = sprintf('DestCS2X=%1.6f;', dVal);
-            this.command(['&2a;', 'CSxReady=1;', cCmd, 'CommandCode=24']);
+            this.command(['&2a;', 'CSxReady=-1;', cCmd, 'CommandCode=24']);
         end
         
         % @param {double 1x1} dVal - mm
         function setReticleCoarseY(this, dVal)
             cCmd = sprintf('DestCS2Y=%1.6f;', dVal);
-            this.command(['&2a;', 'CSxReady=1;', cCmd, 'CommandCode=24']);
+            this.command(['&2a;', 'CSxReady=-1;', cCmd, 'CommandCode=24']);
         end
         
         % @param {double 1x1} dVal - um
         function setReticleCoarseZ(this, dVal)
             
             cCmd = sprintf('DestCS2Z=%1.6f;', dVal);
-            this.command(['&2a;', 'CSxReady=1;', cCmd, 'CommandCode=24']);
+            this.command(['&2a;', 'CSxReady=-1;', cCmd, 'CommandCode=24']);
         end
         
         % @param {double 1x1} dVal - urad
         function setReticleCoarseTip(this, dVal)
             
             cCmd = sprintf('DestCS2A=%1.6f;', dVal);
-            this.command(['&2a;', 'CSxReady=1;', cCmd, 'CommandCode=24']);
+            this.command(['&2a;', 'CSxReady=-1;', cCmd, 'CommandCode=24']);
         end
         
         % @param {double 1x1} dVal - urad
         function setReticleCoarseTilt(this, dVal)
             cCmd = sprintf('DestCS2B=%1.6f;', dVal);
-            this.command(['&2a;', 'CSxReady=1;', cCmd, 'CommandCode=24']);
+            this.command(['&2a;', 'CSxReady=-1;', cCmd, 'CommandCode=24']);
         end
         
         
         % @param {double 1x1} dVal - um
         function setReticleFineX(this, dVal)
             cCmd = sprintf('DestCS4X=%1.6f;', dVal);
-            this.command(['&4a;', 'CSxReady=1;', cCmd, 'CommandCode=44']);
+            this.command(['&4a;', 'CSxReady=-1;', cCmd, 'CommandCode=44']);
             
         end
         
         % @param {double 1x1} dVal - um
         function setReticleFineY(this, dVal)
             cCmd = sprintf('DestCS4Y=%1.6f;', dVal);
-            this.command(['&4a;', 'CSxReady=1;', cCmd, 'CommandCode=44']);
+            this.command(['&4a;', 'CSxReady=-1;', cCmd, 'CommandCode=44']);
             
         end
         
@@ -1253,7 +1289,7 @@ classdef PowerPmac < handle
         % @param {double 1x1} dVal - mm
         function setLsiCoarseX(this, dVal)
             cCmd = sprintf('DestCS5X=%1.6f;', dVal);
-            this.command(['&5a;', 'CSxReady=1;', cCmd, 'CommandCode=54']);
+            this.command(['&5a;', 'CSxReady=-1;', cCmd, 'CommandCode=54']);
         end
                 
         
@@ -1290,7 +1326,21 @@ classdef PowerPmac < handle
         end
         
         function stopAll(this)
-            this.jDeltaTauComm.gpasciiCommand('CommandCode=1');
+            
+            % Issues stop and resets all CSXStarted flags to zero.  In
+            % practice, this tells the controller that the previously
+            % issued destinations it was trying to reach are now invalid 
+            % (since the user hit stop) and we are ready for new commands
+            
+            cCmd = [...
+                'CommandCode=1;', ...
+                'CS1Started=0;', ...
+                'CS2Started=0;', ...
+                'CS3Started=0;', ...
+                'CS4Started=0;', ...
+                'CS5Started=0;' ...
+            ];
+            this.jDeltaTauComm.gpasciiCommand(cCmd);
         end
         
         
