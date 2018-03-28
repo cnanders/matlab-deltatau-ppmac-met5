@@ -260,30 +260,31 @@ classdef PowerPmac < handle
             
         end
         
+        %{
         function l = getAtWaferTransferPosition(this)
            cCmd = 'AT_WAFER_TRANSFER_POSITION';
-           this.queryDouble(cCmd)
-           l = true;
+           d = this.queryDouble(cCmd);
+           l = logical(d);
         end
         
         function l = getAtReticleTransferPosition(this)
            cCmd = 'AT_RETICLE_TRANSFER_POSITION';
-           this.queryDouble(cCmd)
-           l = true;
+           d = this.queryDouble(cCmd);
+           l = logical(d);
         end
         
         function l = getWaferPositionLocked(this)
             cCmd = 'WAFER_POSITION_LOCKED';
-            this.queryDouble(cCmd)
-            l = true;
+            d = this.queryDouble(cCmd);
+            l = logical(d);
         end
         
         function l = getReticlePositionLocked(this)
             cCmd = 'RETICLE_POSITION_LOCKED';
-            this.queryDouble(cCmd)
-            l = true;
+            d = this.queryDouble(cCmd);
+            l = logical(d);
         end
-        
+        %}
         
         
         
