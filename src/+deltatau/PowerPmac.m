@@ -235,6 +235,31 @@ classdef PowerPmac < handle
             d = this.queryDouble(cCmd);
         end
         
+        % returns Volts
+        function d = getReticleCap1V(this)
+           cCmd = 'DriftCap1_V';
+           d = this.queryDouble(cCmd);
+        end
+        
+        % returns Volts
+        function d = getReticleCap2V(this)
+           cCmd = 'DriftCap2_V';
+           d = this.queryDouble(cCmd);
+        end
+        
+        % returns Volts
+        function d = getReticleCap3V(this)
+           cCmd = 'DriftCap3_V';
+           d = this.queryDouble(cCmd);
+        end
+        
+        % returns Volts
+        function d = getReticleCap4V(this)
+           cCmd = 'DriftCap4_V';
+           d = this.queryDouble(cCmd);
+            
+        end
+        
         
         
         % Returns mm
