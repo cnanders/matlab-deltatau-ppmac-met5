@@ -3,6 +3,62 @@ classdef PowerPmac < handle
 
     properties (Constant)
         
+        cecVariables = {...
+            'RepCS1X', ...
+            'RepCS1Y', ...
+            'RepCS1Z', ...
+            'RepCS1A', ...
+            'RepCS1B', ...
+            ...
+            'RepCS2X', ...
+            'RepCS2Y', ...
+            'RepCS2Z', ...
+            'RepCS2A', ...
+            'RepCS2B', ...
+            ...
+            'RepCS3Z', ...
+            'RepCS4X', ...
+            'RepCS4Y', ...
+            'RepCS5X', ...
+            ...
+            'CS1Started', ...
+            'CS2Started', ...
+            'CS3Started', ...
+            'CS4Started', ...
+            'CS5Started', ...
+            ...
+            'PMACCSError1', ...
+            'PMACCSStatus1', ...
+            'PMACGlobError', ...
+            'PMACMET50Error', ...
+            'PMACIOInfo', ...
+            'PMACMotorError1', ...
+            'PMACMotorError2', ...
+            'PMACEncoderError1', ...
+            'PMACEncoderError2', ...
+            'PMACMotorStatus1', ...
+            'PMACMotorStatus2', ...
+            ...
+            'DriftCap1_V', ...
+            'DriftCap2_V', ...
+            'DriftCap3_V', ...
+            'DriftCap4_V', ...
+            ...
+            'Acc28E[3].ADCsData[0]', ...
+            'Acc28E[3].ADCsData[1]', ...
+            'Acc28E[3].ADCsData[2]', ...
+            'Acc28E[3].ADCsData[3]', ...
+            ...
+            'ActWorkingMode', ...
+            'NewWorkingMode', ...
+            ...
+            'Hydra1UMotMinNorm1', ...
+            'Hydra1UMotMinNorm2', ...
+            'Hydra2UMotMinNorm1', ...
+            'Hydra2UMotMinNorm2', ...
+            'Hydra3UMotMinNorm1' ...
+        };
+        
         
     end
     
@@ -29,24 +85,14 @@ classdef PowerPmac < handle
         
         dTimeout = 5
         
-        ticMotorStatus1
-        ticMotorStatus2
-        ticEncoderError1
-        ticEncoderError2
-        ticMotorError1
-        ticMotorError2 % same page
-        ticCSError1
-        ticCSStatus1
-        ticGlobError
-        ticMET50Error
-        ticIOInfo
-        
-        tocMin = 1;
+        ticGetVariables
+        tocMin = 0.2;
         
         
         % storage for status data to serve if asked for 
         % more often than every tocMin seconds
         
+        dAll % {double 1 x m} see getAll()
         motorStatus1
         motorStatus2
         encoderError1
@@ -58,6 +104,8 @@ classdef PowerPmac < handle
         globError
         met50Error
         ioInfo
+        
+        
         
         
         
@@ -174,9 +222,30 @@ classdef PowerPmac < handle
         % is instructed to move to a new destinataino and return false
         % once the destination is achieved or after stopAll() is called
         
+        function d = getWaferCoarseXMotMin(this)
+            d = this.queryDouble('Hydra1UMotMinNorm1');
+        end
+        
+        function d = getWaferCoarseYMotMin(this)
+            d = this.queryDouble('Hydra1UMotMinNorm2');
+        end
+        
+        function d = getReticleCoarseXMotMin(this)
+            d = this.queryDouble('Hydra2UMotMinNorm1');
+        end
+        
+        function d = getReticleCoarseYMotMin(this)
+            d = this.queryDouble('Hydra2UMotMinNorm2'); 
+        end
+        
+        function d = getLsiCoarseXMotMin(this)
+            d = this.queryDouble('Hydra3UMotMinNorm1');
+        end
+        
         function l = getWaferCoarseXYZTipTiltStarted(this)
            cCmd = 'CS1Started';
            l = logical(this.queryInt32(cCmd));
+           
         end
         
         function l = getReticleCoarseXYZTipTiltStarted(this)
@@ -208,7 +277,7 @@ classdef PowerPmac < handle
         % Returns mm
         function d = getWaferCoarseY(this)
             cCmd = 'RepCS1Y';
-            d = this.queryDouble(cCmd);
+            d = this.queryDouble(cCmd); 
         end
         
         % Returns um
@@ -235,27 +304,60 @@ classdef PowerPmac < handle
             d = this.queryDouble(cCmd);
         end
         
-        % returns Volts
-        function d = getReticleCap1V(this)
-           cCmd = 'DriftCap1_V';
-           d = this.queryDouble(cCmd);
+        % Returns the voltage [-5 5] of the DeltaTau ACC20E 16-bit ADC board
+        % that are connected to the DAQ of the Lion Amplifier of the Cap
+        % Sensors
+        % 16-bit gives signed values in [-32768, 32767] 32768 is 2^15
+        % Board 2 is connected to slots 1 - 4 of the Lion Chassis
+        % Board 3 is connected to slots 5 - 8 of the Lion Chassis
+        % This command can be used to get the values of the Mod3 and
+        % POB cap sensors sensing the retielc and wafer, respectively
+        function d = getAcc28EADCValue(this, u8Board, u8Channel)
+            cCmd = sprintf('Acc28E[%d].ADCsData[%d]', u8Board, u8Channel);
+            d = double(this.queryInt32(cCmd)) / 2^15 * 10;
         end
         
+               
+        
         % returns Volts
-        function d = getReticleCap2V(this)
+        function d = getReticleCap1V(this)
+           % cCmd = 'DriftCap1_V';
+           
+           % Cap 1 is hooked up to second board in Lion chassis, per
+           % Zeiss
+           
            cCmd = 'DriftCap2_V';
            d = this.queryDouble(cCmd);
         end
         
         % returns Volts
-        function d = getReticleCap3V(this)
+        function d = getReticleCap2V(this)
+           % cCmd = 'DriftCap2_V';
+           
+           % Cap 2 is hooked up to the third board in Lion chassis
            cCmd = 'DriftCap3_V';
            d = this.queryDouble(cCmd);
         end
         
         % returns Volts
-        function d = getReticleCap4V(this)
+        function d = getReticleCap3V(this)
+           % cCmd = 'DriftCap3_V';
+          
+           % Cap 3 is hooked up to fourth board in Lion chassis, per
+           % Zeiss
            cCmd = 'DriftCap4_V';
+           d = this.queryDouble(cCmd);
+        end
+        
+        % returns Volts
+        function d = getReticleCap4V(this)
+            
+           % cCmd = 'DriftCap4_V';
+           
+           % NOTE Cap4 is hooked up to first board in Lion chassis, 
+           % Per ZEISS so need to ask PPMAC for first board
+            
+           cCmd = 'DriftCap1_V';
            d = this.queryDouble(cCmd);
             
         end
@@ -308,8 +410,10 @@ classdef PowerPmac < handle
         
         % Returns urad
         function d = getReticleCoarseTip(this)
+            % tic
             cCmd = 'RepCS2A';
             d = this.queryDouble(cCmd);
+            % toc
         end
         
         % Returns urad
@@ -336,19 +440,7 @@ classdef PowerPmac < handle
             d = this.queryDouble(cCmd);
         end
         
-       %{
-                
-        % If seen, the corresponding Hydra should be power cycled
-                
-        % Shows that the servo loop inside 712 controller is not
-        % enabled. This can be done with newWorkingMode = wm_ACTIVATE
-        
-       
-        
-       
-        
-        %}
-        
+
         function l = getMotorErrorWaferCoarseXHoming(this)
             l = logical(bitand(this.getMotorError1(), hex2dec('100')));
         end
@@ -1085,157 +1177,100 @@ classdef PowerPmac < handle
         % 8 of the PPMAC_LBNL_2_6.doc
         function u32 = getMotorStatus1(this)
             
-            if ~isempty(this.ticMotorStatus1)
-                if (toc(this.ticMotorStatus1) < this.tocMin)
-                    u32 = this.motorStatus1;
-                    return;
-                end
-            end
             cCmd = 'PMACMotorStatus1';
             u32 = this.queryInt32(cCmd);
-            this.ticMotorStatus1 = tic();
-            this.motorStatus1 = u32;
         end
         
         % See getMotorStatus1
         function u32 = getMotorStatus2(this)
-            
-            if ~isempty(this.ticMotorStatus2)
-                if (toc(this.ticMotorStatus2) < this.tocMin)
-                    u32 = this.motorStatus2;
-                    return;
-                end
-            end
-            
             cCmd = 'PMACMotorStatus2';
             u32 = this.queryInt32(cCmd);
-            this.ticMotorStatus2 = tic();
-            this.motorStatus2 = u32;
         end
         
         function u32 = getEncoderError1(this)
-            
-            if ~isempty(this.ticEncoderError1)
-                if (toc(this.ticEncoderError1) < this.tocMin)
-                    u32 = this.encoderError1;
-                    return;
-                end
-            end
             cCmd = 'PMACEncoderError1';
             u32 = this.queryInt32(cCmd);
-            this.ticEncoderError1 = tic();
-            this.encoderError1 = u32;
         end
         
         function u32 = getEncoderError2(this)
-            if ~isempty(this.ticEncoderError2)
-                if (toc(this.ticEncoderError2) < this.tocMin)
-                    u32 = this.encoderError2;
-                    return;
-                end
-            end
             cCmd = 'PMACEncoderError2';
             u32 = this.queryInt32(cCmd);
-            this.ticEncoderError2 = tic();
-            this.encoderError2 = u32;
         end
         
         function u32 = getMotorError1(this)
-            if ~isempty(this.ticMotorError1)
-                if (toc(this.ticMotorError1) < this.tocMin)
-                    u32 = this.motorError1;
-                    return;
-                end
-            end
             cCmd = 'PMACMotorError1';
             u32 = this.queryInt32(cCmd);
-            this.ticMotorError1 = tic();
-            this.motorError1 = u32;
         end
         
         function u32 = getMotorError2(this)
-            if ~isempty(this.ticMotorError2)
-                if (toc(this.ticMotorError2) < this.tocMin)
-                    u32 = this.motorError2;
-                    return;
-                end
-            end
-            cCmd = 'PMACMotorError2';
+           cCmd = 'PMACMotorError2';
             u32 = this.queryInt32(cCmd);
-            this.ticMotorError2 = tic();
-            this.motorError2 = u32;
         end
         
-        function u32 = getCsError1(this)
-            if ~isempty(this.ticCSError1)
-                if (toc(this.ticCSError1) < this.tocMin)
-                    u32 = this.csError1;
+        % Returns {double 1xm} of each RepCS... variable that is accessible
+        % in the order ilisted in section 3.5 of the documentation
+        function d = getAll(this)
+            
+            % tic
+            
+            if ~isempty(this.ticGetVariables)
+                if (toc(this.ticGetVariables) < this.tocMin)
+                    % Use storage
+                    d = this.dAll;
+                    % toc
+                    % fprintf('PowerPmac.getAll() using cache\n');
                     return;
                 end
             end
+            
+            cCmd = strjoin(this.cecVariables, ';');
+            % queryChar returns {java.lang.String}
+            strResponse = this.queryChar(cCmd);
+            
+            if strcmp(strResponse, '')
+                d = zeros(1, length(this.cecVariables));
+            else
+                % Each requested item will be followed by \r\n
+                % Split the response into a {java.lang.String[] m x 1}
+                strValues = strResponse.split('\r\n');
+                
+                % str2double works on java.lang.String
+                d = str2num(strValues);
+                
+            end
+            
+            % Reset tic and update storate
+            this.ticGetVariables = tic();
+            this.dAll = d;
+            
+            % toc
+            
+        end
+        
+        
+        function u32 = getCsError1(this)
             cCmd = 'PMACCSError1';
             u32 = this.queryInt32(cCmd);
-            this.ticCSError1 = tic();
-            this.csError1 = u32;
         end
         
         function u32 = getCsStatus1(this)
-            if ~isempty(this.ticCSStatus1)
-                if (toc(this.ticCSStatus1) < this.tocMin)
-                    u32 = this.csStatus1;
-                    return;
-                end
-            end
             cCmd = 'PMACCSStatus1';
             u32 = this.queryInt32(cCmd);
-            this.ticCSStatus1 = tic();
-            this.csStatus1 = u32;
         end
         
         function u32 = getGlobError(this)
-            if ~isempty(this.ticGlobError)
-                if (toc(this.ticGlobError) < this.tocMin)
-                    u32 = this.globError;
-                    return;
-                end
-            end
             cCmd = 'PMACGlobError';
             u32 = this.queryInt32(cCmd);
-            this.ticGlobError = tic();
-            this.globError = u32;
         end
         
         function u32 = getMET50Error(this)
-            if ~isempty(this.ticMET50Error)
-                if (toc(this.ticMET50Error) < this.tocMin)
-                    u32 = this.met50Error;
-                    return;
-                end
-            end
-            cCmd = 'PMACMET50Error';
+           cCmd = 'PMACMET50Error';
             u32 = this.queryInt32(cCmd);
-            this.ticMET50Error = tic();
-            %{
-            cMsg = sprintf(...
-                'deltatau.PowerPmac getMet50Error() HEX: %s\n', ...
-                dec2hex(u32, 8) ...
-            );
-            this.msg(cMsg);
-            %}
-            this.met50Error = u32;
         end
         
         function u32 = getIoInfo(this)
-            if ~isempty(this.ticIOInfo)
-                if (toc(this.ticIOInfo) < this.tocMin)
-                    u32 = this.ioInfo;
-                    return;
-                end
-            end
             cCmd = 'PMACIOInfo';
             u32 = this.queryInt32(cCmd);
-            this.ticIOInfo = tic();
-            this.ioInfo = u32;
         end
                         
         %% Setters
@@ -1256,49 +1291,66 @@ classdef PowerPmac < handle
         % @param {double 1x1} dVal - mm
         function setWaferCoarseX(this, dVal)
             cCmd = sprintf('DestCS1X=%1.6f;', dVal);
-            this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
+           this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
+           % this.command([cCmd, 'CommandCode=14']);
+
+            
         end
         
         % @param {double 1x1} dVal - mm
         function setWaferCoarseY(this, dVal)
             cCmd = sprintf('DestCS1Y=%1.6f;', dVal);
             this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
+            %this.command([cCmd, 'CommandCode=14']);
+
         end
         
         % @param {double 1x1} dVal - um
         function setWaferCoarseZ(this, dVal)
             cCmd = sprintf('DestCS1Z=%1.6f;', dVal);
-            this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
+           this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
+            %this.command([cCmd, 'CommandCode=14']);
+
         end
         
         % @param {double 1x1} dVal - urad
         function setWaferCoarseTip(this, dVal)
             cCmd = sprintf('DestCS1A=%1.6f;', dVal);
             this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
+            %this.command([cCmd, 'CommandCode=14']);
+
         end
         
         % @param {double 1x1} dVal - urad
         function setWaferCoarseTilt(this, dVal)
             cCmd = sprintf('DestCS1B=%1.6f;', dVal);
             this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
+            %this.command([cCmd, 'CommandCode=14']);
+
         end
         
         % @param {double 1x1} dVal - um
         function setWaferFineZ(this, dVal)
             cCmd = sprintf('DestCS3Z=%1.6f;', dVal);
             this.command(['&3a;', 'CSxReady=-1;', cCmd, 'CommandCode=34']);
+            %this.command([cCmd, 'CommandCode=34']);
+
         end
                 
         % @param {double 1x1} dVal - mm
         function setReticleCoarseX(this, dVal)
-            cCmd = sprintf('DestCS2X=%1.6f;', dVal);
-            this.command(['&2a;', 'CSxReady=-1;', cCmd, 'CommandCode=24']);
+           cCmd = sprintf('DestCS2X=%1.6f;', dVal);
+           this.command(['&2a;', 'CSxReady=-1;', cCmd, 'CommandCode=24']);
+           % this.command([cCmd, 'CommandCode=24']);
+
         end
         
         % @param {double 1x1} dVal - mm
         function setReticleCoarseY(this, dVal)
             cCmd = sprintf('DestCS2Y=%1.6f;', dVal);
             this.command(['&2a;', 'CSxReady=-1;', cCmd, 'CommandCode=24']);
+            % this.command([cCmd, 'CommandCode=24']);
+
         end
         
         % @param {double 1x1} dVal - um
@@ -1306,6 +1358,8 @@ classdef PowerPmac < handle
             
             cCmd = sprintf('DestCS2Z=%1.6f;', dVal);
             this.command(['&2a;', 'CSxReady=-1;', cCmd, 'CommandCode=24']);
+            % this.command([cCmd, 'CommandCode=24']);
+
         end
         
         % @param {double 1x1} dVal - urad
@@ -1313,12 +1367,16 @@ classdef PowerPmac < handle
             
             cCmd = sprintf('DestCS2A=%1.6f;', dVal);
             this.command(['&2a;', 'CSxReady=-1;', cCmd, 'CommandCode=24']);
+            % this.command([cCmd, 'CommandCode=24']);
+
         end
         
         % @param {double 1x1} dVal - urad
         function setReticleCoarseTilt(this, dVal)
             cCmd = sprintf('DestCS2B=%1.6f;', dVal);
             this.command(['&2a;', 'CSxReady=-1;', cCmd, 'CommandCode=24']);
+            % this.command([cCmd, 'CommandCode=24']);
+
         end
         
         
@@ -1326,14 +1384,14 @@ classdef PowerPmac < handle
         function setReticleFineX(this, dVal)
             cCmd = sprintf('DestCS4X=%1.6f;', dVal);
             this.command(['&4a;', 'CSxReady=-1;', cCmd, 'CommandCode=44']);
-            
+            % this.command([cCmd, 'CommandCode=44']);
         end
         
         % @param {double 1x1} dVal - um
         function setReticleFineY(this, dVal)
             cCmd = sprintf('DestCS4Y=%1.6f;', dVal);
             this.command(['&4a;', 'CSxReady=-1;', cCmd, 'CommandCode=44']);
-            
+            % this.command([cCmd, 'CommandCode=44']);
         end
         
         
@@ -1341,33 +1399,34 @@ classdef PowerPmac < handle
         function setLsiCoarseX(this, dVal)
             cCmd = sprintf('DestCS5X=%1.6f;', dVal);
             this.command(['&5a;', 'CSxReady=-1;', cCmd, 'CommandCode=54']);
+            %this.command([cCmd, 'CommandCode=54']);
+
         end
                 
         
         % Send a query command and get the result back as ASCII
+        % {java.lang.String}
         function c = queryChar(this, cCmd)
             c = this.jDeltaTauComm.gpasciiQuery(cCmd);
         end
         
         % Send a query command and get the result formated as a double
         function d = queryDouble(this, cCmd)
-            c = this.queryChar(cCmd);
-            % strip leading '#' char
-            % c = c(1:end);
             
-            % If there is a timeout, jDeltaTauComm will return an empty
-            % string.  str2double('') returns NaN which is no bueno. 
-            if strcmp(c, '')
-                d = 0;
-            else
-                d = str2double(c);
+            d = this.getAll();
+            lMask = strcmp(this.cecVariables, cCmd);
+            if ~any(lMask)
+                fprintf('+deltatau.PowerPmac.queryDouble %s not in cecVariables\n', cCmd);
             end
+            d = d(lMask);
+                       
         end
         
         % Send a query command and get the result formatted as a 32-bit int
         function u32 = queryInt32(this, cCmd)
-           c = this.queryChar(cCmd);
-           u32 = str2num(c);
+            d = this.getAll();
+            lMask = strcmp(this.cecVariables, cCmd);
+            u32 = d(lMask);
         end
         
         % Send a "set" command
