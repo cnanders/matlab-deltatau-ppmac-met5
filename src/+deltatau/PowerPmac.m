@@ -39,7 +39,7 @@ classdef PowerPmac < handle
             'PMACMotorStatus1', ...
             'PMACMotorStatus2', ...
             ...
-            'DriftCap1_V', ...
+            'DriftCap1_V', ... 
             'DriftCap2_V', ...
             'DriftCap3_V', ...
             'DriftCap4_V', ...
@@ -105,16 +105,24 @@ classdef PowerPmac < handle
         met50Error
         ioInfo
         
+        dXWaferTransferPosition = -449 % mm
+        dYWaferTransferPosition = 7
+        dZWaferTransferPosition = -1 % mm
+        dTiltXWaferTransferPosition = 630; % urad (approx image tilt)
+        dTiltYWaferTransferPosition = -1600; % urad (approx image tilt)
         
-        
-        
+        dXReticleTransferPosition = 335
+        dYReticleTransferPosition = 15.2
+        dZReticleTransferPosition = 0
+        dTiltXReticleTransferPosition = 0;
+        dTiltYReticleTransferPosition = 0;
+
         
     end
     
     methods
         
         function this = PowerPmac(varargin)
-                        
             for k = 1 : 2: length(varargin)
                 this.msg(sprintf('passed in %s', varargin{k}));
                 if this.hasProp( varargin{k})
@@ -123,6 +131,27 @@ classdef PowerPmac < handle
                 end
             end
         end
+        
+        % x, y, z (mm)
+        % tiltX, tiltY (urad)
+        function setLocalWaferTransferPosition(this, dX, dY, dZ, dTiltX, dTiltY)
+            this.dXWaferTransferPosition = dX;
+            this.dYWaferTransferPosition = dY;
+            this.dZWaferTransferPosition = dZ;
+            this.dTiltXWaferTransferPosition = dTiltX;
+            this.dTiltYWaferTransferPosition = dTiltY;
+        end
+        
+         % x, y, z (mm)
+         % tiltX, tiltY (urad)
+         function setLocalReticleTransferPosition(this, dX, dY, dZ, dTiltX, dTiltY)
+            this.dXReticleTransferPosition = dX;
+            this.dYReticleTransferPosition = dY;
+            this.dZReticleTransferPosition = dZ;
+            this.dTiltXReticleTransferPosition = dTiltX;
+            this.dTiltYReticleTransferPosition = dTiltY;
+        end
+        
         
         function init(this)
             try
@@ -167,6 +196,8 @@ classdef PowerPmac < handle
         end
         
         function setWorkingModeActivate(this)
+            
+            
             cCmd = sprintf('NewWorkingMode=1');
             this.command(cCmd);
         end
@@ -198,12 +229,46 @@ classdef PowerPmac < handle
         end
         
         function setWorkingModeWaferTransfer(this)
-            cCmd = sprintf('NewWorkingMode=7');
+            
+            % Hack to set the wafer transfer position variables whenever 
+            % wm_WAFER_TRANSFER command is sent to PPMAC.
+            % the _wtp these cannot be permanently changed on the
+            % PPMAC (power cycles always revert to the default value
+            
+                  
+        
+            cCmd = [...
+                sprintf('pos_BCX_W_wtp=%1.6f;', this.dXWaferTransferPosition), ...
+                sprintf('pos_WCY_wtp=%1.6f;', this.dYWaferTransferPosition), ...
+                sprintf('pos_WCZ_wtp=%1.6f;', this.dZWaferTransferPosition), ...
+                sprintf('pos_WCRx_wtp=%1.6f;', this.dTiltXWaferTransferPosition), ...
+                sprintf('pos_WCRy_wtp=%1.6f;', this.dTiltYWaferTransferPosition), ...
+                ...
+                sprintf('NewWorkingMode=7') ...
+            ]                
+            
+            % cCmd = sprintf('NewWorkingMode=7');
             this.command(cCmd);
         end
         
         function setWorkingModeReticleTransfer(this)
-            cCmd = sprintf('NewWorkingMode=8');
+            
+            % Hack to set the reticle transfer position variables whenever 
+            % wm_RETICLE_TRANSFER command is sent to PPMAC.
+            % the _wtp these cannot be permanently changed on the
+            % PPMAC (power cycles always revert to the default value
+            
+            cCmd = [...
+                sprintf('pos_RCX_rtp=%1.6f;', this.dXReticleTransferPosition), ...
+                sprintf('pos_RCY_rtp=%1.6f;', this.dYReticleTransferPosition), ...
+                sprintf('pos_RCZ_rtp=%1.6f;', this.dZReticleTransferPosition), ...
+                sprintf('pos_RCRx_rtp=%1.6f;', this.dTiltXReticleTransferPosition), ...
+                sprintf('pos_RCRy_rtp=%1.6f;', this.dTiltYReticleTransferPosition), ...
+                ...
+                sprintf('NewWorkingMode=8') ...
+            ]                
+            
+            % cCmd = sprintf('NewWorkingMode=8');
             this.command(cCmd);
         end
         
