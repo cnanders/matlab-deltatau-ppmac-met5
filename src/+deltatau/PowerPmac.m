@@ -196,6 +196,7 @@ classdef PowerPmac < deltatau.PowerPmac
         end
         
         function setWorkingModeActivate(this)
+
             cCmd = sprintf('NewWorkingMode=1');
             this.command(cCmd);
         end
