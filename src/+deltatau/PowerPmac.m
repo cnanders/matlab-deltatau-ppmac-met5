@@ -1,4 +1,4 @@
-classdef PowerPmac < deltatau.PowerPmac
+classdef PowerPmac < deltatau.AbstractPowerPmac
         
 
     properties (Constant)
@@ -503,7 +503,7 @@ classdef PowerPmac < deltatau.PowerPmac
         end
         
         % Returns mm
-        function d = getLsiCoarseX(this)
+        function d = getXLsiCoarse(this)
             cCmd = 'RepCS5X';
             d = this.queryDouble(cCmd);
         end
