@@ -290,23 +290,23 @@ classdef PowerPmac < deltatau.PowerPmac
         % is instructed to move to a new destinataino and return false
         % once the destination is achieved or after stopAll() is called
         
-        function d = getWaferCoarseXMotMin(this)
+        function d = getMotMinWaferCoarseX(this)
             d = this.queryDouble('Hydra1UMotMinNorm1');
         end
         
-        function d = getWaferCoarseYMotMin(this)
+        function d = getMotMinWaferCoarseY(this)
             d = this.queryDouble('Hydra1UMotMinNorm2');
         end
         
-        function d = getReticleCoarseXMotMin(this)
+        function d = getMotMinReticleCoarseX(this)
             d = this.queryDouble('Hydra2UMotMinNorm1');
         end
         
-        function d = getReticleCoarseYMotMin(this)
+        function d = getMotMinReticleCoarseY(this)
             d = this.queryDouble('Hydra2UMotMinNorm2'); 
         end
         
-        function d = getLsiCoarseXMotMin(this)
+        function d = getMotMinLsiCoarseX(this)
             d = this.queryDouble('Hydra3UMotMinNorm1');
         end
         
@@ -388,7 +388,7 @@ classdef PowerPmac < deltatau.PowerPmac
                
         
         % returns Volts
-        function d = getReticleCap1V(this)
+        function d = getVoltageReticleCap1(this)
            % cCmd = 'DriftCap1_V';
            
            % Cap 1 is hooked up to second board in Lion chassis, per
@@ -399,7 +399,7 @@ classdef PowerPmac < deltatau.PowerPmac
         end
         
         % returns Volts
-        function d = getReticleCap2V(this)
+        function d = getVoltageReticleCap2(this)
            % cCmd = 'DriftCap2_V';
            
            % Cap 2 is hooked up to the third board in Lion chassis
@@ -408,7 +408,7 @@ classdef PowerPmac < deltatau.PowerPmac
         end
         
         % returns Volts
-        function d = getReticleCap3V(this)
+        function d = getVoltageReticleCap3(this)
            % cCmd = 'DriftCap3_V';
           
            % Cap 3 is hooked up to fourth board in Lion chassis, per
@@ -418,7 +418,7 @@ classdef PowerPmac < deltatau.PowerPmac
         end
         
         % returns Volts
-        function d = getReticleCap4V(this)
+        function d = getVoltageReticleCap4(this)
             
            % cCmd = 'DriftCap4_V';
            

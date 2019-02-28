@@ -39,10 +39,10 @@ ppmac.getWaferCoarseY();
 ppmac.getWaferCoarseZ();
 ppmac.getWaferCoarseTip();
 ppmac.getWaferCoarseTilt();
-ppmac.getReticleCap1V();
-ppmac.getReticleCap2V();
-ppmac.getReticleCap3V();
-ppmac.getReticleCap4V();
+ppmac.getVoltageReticleCap1();
+ppmac.getVoltageReticleCap2();
+ppmac.getVoltageReticleCap3();
+ppmac.getVoltageReticleCap4();
 toc
 
 pause(2)
@@ -58,10 +58,10 @@ ppmac.getWaferCoarseY();
 ppmac.getWaferCoarseZ();
 ppmac.getWaferCoarseTip();
 ppmac.getWaferCoarseTilt();
-ppmac.getReticleCap1V();
-ppmac.getReticleCap2V();
-ppmac.getReticleCap3V();
-ppmac.getReticleCap4V();
+ppmac.getVoltageReticleCap1();
+ppmac.getVoltageReticleCap2();
+ppmac.getVoltageReticleCap3();
+ppmac.getVoltageReticleCap4();
 toc
 
 pause(2)
@@ -77,10 +77,10 @@ ppmac.getWaferCoarseY();
 ppmac.getWaferCoarseZ();
 ppmac.getWaferCoarseTip();
 ppmac.getWaferCoarseTilt();
-ppmac.getReticleCap1V();
-ppmac.getReticleCap2V();
-ppmac.getReticleCap3V();
-ppmac.getReticleCap4V();
+ppmac.getVoltageReticleCap1();
+ppmac.getVoltageReticleCap2();
+ppmac.getVoltageReticleCap3();
+ppmac.getVoltageReticleCap4();
 toc
 
 pause(2)

@@ -70,19 +70,19 @@ classdef AbstractPowerPmac < handle
         % is instructed to move to a new destinataino and return false
         % once the destination is achieved or after stopAll() is called
         
-        d = getWaferCoarseXMotMin(this)
+        d = getMotMinWaferCoarseX(this)
         
         
-        d = getWaferCoarseYMotMin(this)
+        d = getMotMinWaferCoarseY(this)
         
         
-        d = getReticleCoarseXMotMin(this)
+        d = getMotMinReticleCoarseX(this)
         
         
-        d = getReticleCoarseYMotMin(this)
+        d = getMotMinReticleCoarseY(this)
         
         
-        d = getLsiCoarseXMotMin(this)
+        d = getMotMinLsiCoarseX(this)
         
         
         l = getWaferCoarseXYZTipTiltStarted(this)
@@ -150,22 +150,22 @@ classdef AbstractPowerPmac < handle
                
         
         % returns Volts
-        d = getReticleCap1V(this)
+        d = getVoltageReticleCap1(this)
            
         
         
         % returns Volts
-        d = getReticleCap2V(this)
+        d = getVoltageReticleCap2(this)
            
         
         
         % returns Volts
-        d = getReticleCap3V(this)
+        d = getVoltageReticleCap3(this)
            
         
         
         % returns Volts
-        d = getReticleCap4V(this)
+        d = getVoltageReticleCap4(this)
             
            
             
@@ -875,6 +875,7 @@ classdef AbstractPowerPmac < handle
                 
 
         stopAll(this)
+        
         
     end
     

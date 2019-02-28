@@ -35,7 +35,7 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
         
     end
    
-    methods (Abstract)
+    methods
         
         
         % x, y, z (mm)
@@ -103,23 +103,23 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
         % is instructed to move to a new destinataino and return false
         % once the destination is achieved or after stopAll() is called
         
-        function d = getWaferCoarseXMotMin(this)
+        function d = getMotMinWaferCoarseX(this)
             d = this.dMotMinWaferCoarseX;
         end
         
-        function d = getWaferCoarseYMotMin(this)
+        function d = getMotMinWaferCoarseY(this)
             d = this.dMotMinWaferCoarseY;
         end
         
-        function d = getReticleCoarseXMotMin(this)
+        function d = getMotMinReticleCoarseX(this)
             d = this.dMotMinReticleCoarseX;
         end
         
-        function d = getReticleCoarseYMotMin(this)
+        function d = getMotMinReticleCoarseY(this)
             d = this.dMotMinReticleCoarseY;
         end
         
-        function d = getLsiCoarseXMotMin(this)
+        function d = getMotMinLsiCoarseX(this)
             d = this.dMotMinLsiX;
         end
         
@@ -189,22 +189,22 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
                
         
         % returns Volts
-        function d = getReticleCap1V(this)
+        function d = getVoltageReticleCap1(this)
            d = this.dMeanCap + this.dSigCap * randn(1);
         end
         
         % returns Volts
-        function d = getReticleCap2V(this)
+        function d = getVoltageReticleCap2(this)
            d = this.dMeanCap + this.dSigCap * randn(1);
         end
         
         % returns Volts
-        function d = getReticleCap3V(this)
+        function d = getVoltageReticleCap3(this)
            d = this.dMeanCap + this.dSigCap * randn(1);
         end
         
         % returns Volts
-        function d = getReticleCap4V(this)
+        function d = getVoltageReticleCap4(this)
             d = this.dMeanCap + this.dSigCap * randn(1);
            
             
