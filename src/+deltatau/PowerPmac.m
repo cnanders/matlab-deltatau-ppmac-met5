@@ -1,4 +1,4 @@
-classdef PowerPmac < handle
+classdef PowerPmac < deltatau.PowerPmac
         
 
     properties (Constant)
@@ -196,8 +196,7 @@ classdef PowerPmac < handle
         end
         
         function setWorkingModeActivate(this)
-            
-            % 2018.12.18 adding commandCode=5 to make it go to open loop
+
             cCmd = sprintf('NewWorkingMode=1');
             this.command(cCmd);
         end
