@@ -123,53 +123,53 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
             d = this.dMotMinLsiX;
         end
         
-        function l = getWaferCoarseXYZTipTiltStarted(this)
+        function l = getIsStartedWaferCoarseXYZTipTilt(this)
             l = false;
         end
         
-        function l = getReticleCoarseXYZTipTiltStarted(this)
-           l = fasle;
-        end
-        
-        function l = getWaferFineZStarted(this)
+        function l = getIsStartedReticleCoarseXYZTipTilt(this)
            l = false;
         end
         
-        function l = getReticleFineXYStarted(this)
+        function l = getIsStartedWaferFineZ(this)
            l = false;
         end
         
-        function l = getLSICoarseXStarted(this)
+        function l = getIsStartedReticleFineXY(this)
+           l = false;
+        end
+        
+        function l = getIsStartedLsiCoarseX(this)
            l = false;
         end
         
         % Returns mm
-        function d = getWaferCoarseX(this)
+        function d = getXWaferCoarse(this)
             d = this.dXWaferCoarse;
         end
         
         % Returns mm
-        function d = getWaferCoarseY(this)
+        function d = getYWaferCoarse(this)
             d = this.dYWaferCoarse;
         end
         
         % Returns um
-        function d = getWaferCoarseZ(this)
+        function d = getZWaferCoarse(this)
            d = this.dZWaferCoarse; 
         end
         
         % Returns urad
-        function d = getWaferCoarseTip(this)
+        function d = getTiltXWaferCoarse(this)
             d = this.dTiltXWaferCoarse;
         end
         
         % Returns urad
-        function d = getWaferCoarseTilt(this)
+        function d = getTiltYWaferCoarse(this)
             d = this.dTiltYWaferCoarse;
         end
         
         % Returns um
-        function d = getWaferFineZ(this)
+        function d = getZWaferFine(this)
             d = this.dZWaferFine;
         end
         
@@ -214,43 +214,43 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
         
         
         % Returns mm
-        function d = getReticleCoarseX(this)
+        function d = getXReticleCoarse(this)
             d = this.dXReticleCoarse;
             
         end
         
         % Returns mm
-        function d = getReticleCoarseY(this)
+        function d = getYReticleCoarse(this)
             d = this.dYReticleCoarse;
         end
         
         % Returns um
-        function d = getReticleCoarseZ(this)
+        function d = getZReticleCoarse(this)
             d = this.dZReticleCoarse;
         end
         
         % Returns urad
-        function d = getReticleCoarseTip(this)
+        function d = getTiltXReticleCoarse(this)
             d = this.dTiltXReticleCoarse;
         end
         
         % Returns urad
-        function d = getReticleCoarseTilt(this)
+        function d = getTiltYReticleCoarse(this)
             d = this.dTiltYReticleCoarse;
         end
         
         % Returns um
-        function d = getReticleFineX(this)
+        function d = getXReticleFine(this)
             d = this.dXReticleFine;
         end
         
         % Returns um
-        function d = getReticleFineY(this)
+        function d = getYReticleFine(this)
             d = this.dYReticleFine;
         end
         
         % Returns mm
-        function d = getLsiCoarseX(this)
+        function d = getXLsiCoarse(this)
             d = this.dXLsiCoarse;
         end
         
@@ -1004,77 +1004,122 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
         % Expire the cache for all sets
             
         % @param {double 1x1} dVal - mm
-        function setWaferCoarseX(this, dVal)
+        
+        function setXYZTiltXTiltYWaferCoarse(this, dX, dY, dZ, dTiltX, dTiltY)
+            this.dXWaferCoarse = dX;
+            this.dYWaferCoarse = dY;
+            this.dZWaferCoarse = dZ;
+            this.dTiltXWaferCoarse = dTiltX;
+            this.dTiltYWaferCoarse = dTiltY;
+            
+        end
+        
+        
+        function setXWaferCoarse(this, dVal)
             this.dXWaferCoarse = dVal;
             
         end
         
         % @param {double 1x1} dVal - mm
-        function setWaferCoarseY(this, dVal)
+        function setYWaferCoarse(this, dVal)
             this.dYWaferCoarse = dVal;
         end
         
         % @param {double 1x1} dVal - um
-        function setWaferCoarseZ(this, dVal)
+        function setZWaferCoarse(this, dVal)
             this.dZWaferCoarse = dVal;
         end
         
         % @param {double 1x1} dVal - urad
-        function setWaferCoarseTip(this, dVal)
+        function setTiltXWaferCoarse(this, dVal)
             this.dTiltXWaferCoarse = dVal;
         end
         
         % @param {double 1x1} dVal - urad
-        function setWaferCoarseTilt(this, dVal)
+        function setTiltYWaferCoarse(this, dVal)
             this.dTiltYWaferCoarse = dVal;
         end
         
         % @param {double 1x1} dVal - um
-        function setWaferFineZ(this, dVal)
+        function setZWaferFine(this, dVal)
             this.dZWaferFine = dVal;
         end
-                
+              
+        
+        function setXYZTiltXTiltYReticleCoarse(this, dX, dY, dZ, dTiltX, dTiltY)
+            this.dXReticleCoarse = dX;
+            this.dYReticleCoarse = dY;
+            this.dZReticleCoarse = dZ;
+            this.dTiltXReticleCoarse = dTiltX;
+            this.dTiltYReticleCoarse = dTiltY;
+            
+        end
+        
+        
         % @param {double 1x1} dVal - mm
-        function setReticleCoarseX(this, dVal)
+        function setXReticleCoarse(this, dVal)
            this.dXReticleCoarse = dVal;
         end
         
         % @param {double 1x1} dVal - mm
-        function setReticleCoarseY(this, dVal)
+        function setYReticleCoarse(this, dVal)
             this.dYReticleCoarse = dVal;
         end
         
         % @param {double 1x1} dVal - um
-        function setReticleCoarseZ(this, dVal)
+        function setZReticleCoarse(this, dVal)
             this.dZReticleCoarse = dVal;
         end
         
         % @param {double 1x1} dVal - urad
-        function setReticleCoarseTip(this, dVal)
+        function setTiltXReticleCoarse(this, dVal)
             this.dTiltXReticleCoarse = dVal;
         end
         
         % @param {double 1x1} dVal - urad
-        function setReticleCoarseTilt(this, dVal)
+        function setTiltYReticleCoarse(this, dVal)
             this.dTiltYReticleCoarse = dVal;
         end
         
         
         % @param {double 1x1} dVal - um
-        function setReticleFineX(this, dVal)
+        function setXReticleFine(this, dVal)
             this.dXReticleFine = dVal;
         end
         
         % @param {double 1x1} dVal - um
-        function setReticleFineY(this, dVal)
+        function setYReticleFine(this, dVal)
             this.dYReticleFine = dVal;
         end
         
         
         % @param {double 1x1} dVal - mm
-        function setLsiCoarseX(this, dVal)
+        function setXLsiCoarse(this, dVal)
             this.dXLsiCoarse = dVal;
 
+        end
+        
+        
+        function setMotMinWaferCoarseX(this, dVal)
+            this.dMotMinWaferCoarseX = dVal;
+                
+        end
+        
+        function setMotMinWaferCoarseY(this, dVal)
+            this.dMotMinWaferCoarseY = dVal;
+                
+        end
+        
+        function setMotMinReticleCoarseX(this, dVal)
+            this.dMotMinReticleCoarseX = dVal;
+        end
+        
+        function setMotMinReticleCoarseY(this, dVal)
+            this.dMotMinReticleCoarseY = dVal; 
+        end
+        
+        function setMotMinLsiCoarseX(this, dVal)
+            this.dMotMinLsiX = dVal;
         end
                 
 

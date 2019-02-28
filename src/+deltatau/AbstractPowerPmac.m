@@ -85,53 +85,53 @@ classdef AbstractPowerPmac < handle
         d = getMotMinLsiCoarseX(this)
         
         
-        l = getWaferCoarseXYZTipTiltStarted(this)
+        l = getIsStartedWaferCoarseXYZTipTilt(this)
            
         
         
-        l = getReticleCoarseXYZTipTiltStarted(this)
+        l = getIsStartedReticleCoarseXYZTipTilt(this)
            
         
         
-        l = getWaferFineZStarted(this)
+        l = getIsStartedWaferFineZ(this)
            
         
         
-        l = getReticleFineXYStarted(this)
+        l = getIsStartedReticleFineXY(this)
            
         
         
-        l = getLSICoarseXStarted(this)
+        l = getIsStartedLsiCoarseX(this)
            
         
         
         % Returns mm
-        d = getWaferCoarseX(this)
+        d = getXWaferCoarse(this)
             
         
         
         % Returns mm
-        d = getWaferCoarseY(this)
+        d = getYWaferCoarse(this)
             
         
         
         % Returns um
-        d = getWaferCoarseZ(this)
+        d = getZWaferCoarse(this)
             
         
         
         % Returns urad
-        d = getWaferCoarseTip(this)
+        d = getTiltXWaferCoarse(this)
             
         
         
         % Returns urad
-        d = getWaferCoarseTilt(this)
+        d = getTiltYWaferCoarse(this)
             
         
         
         % Returns um
-        d = getWaferFineZ(this)
+        d = getZWaferFine(this)
             
         
         
@@ -175,42 +175,42 @@ classdef AbstractPowerPmac < handle
         
         
         % Returns mm
-        d = getReticleCoarseX(this)
+        d = getXReticleCoarse(this)
             
         
         
         % Returns mm
-        d = getReticleCoarseY(this)
+        d = getYReticleCoarse(this)
             
         
         
         % Returns um
-        d = getReticleCoarseZ(this)
+        d = getZReticleCoarse(this)
             
         
         
         % Returns urad
-        d = getReticleCoarseTip(this)
+        d = getTiltXReticleCoarse(this)
             
         
         
         % Returns urad
-        d = getReticleCoarseTilt(this)
+        d = getTiltYReticleCoarse(this)
             
         
         
         % Returns um
-        d = getReticleFineX(this)
+        d = getXReticleFine(this)
             
         
         
         % Returns um
-        d = getReticleFineY(this)
+        d = getYReticleFine(this)
             
         
         
         % Returns mm
-        d = getLsiCoarseX(this)
+        d = getXLsiCoarse(this)
             
         
         
@@ -799,79 +799,95 @@ classdef AbstractPowerPmac < handle
             
         % Expire the cache for all sets
             
+        
+        setXYZTiltXTiltYWaferCoarse(this, dX, dY, dZ, dTiltX, dTiltY)
+        
+        
         % @param {double 1x1} dVal - mm
-        setWaferCoarseX(this, dVal)
+        setXWaferCoarse(this, dVal)
             
             
         
         
         % @param {double 1x1} dVal - mm
-        setWaferCoarseY(this, dVal)
+        setYWaferCoarse(this, dVal)
             
         
         
         % @param {double 1x1} dVal - um
-        setWaferCoarseZ(this, dVal)
+        setZWaferCoarse(this, dVal)
             
         
         
         % @param {double 1x1} dVal - urad
-        setWaferCoarseTip(this, dVal)
+        setTiltXWaferCoarse(this, dVal)
             
         
         
         % @param {double 1x1} dVal - urad
-        setWaferCoarseTilt(this, dVal)
+        setTiltYWaferCoarse(this, dVal)
             
         
         
         % @param {double 1x1} dVal - um
-        setWaferFineZ(this, dVal)
+        setZWaferFine(this, dVal)
             
         
+        setXYZTiltXTiltYReticleCoarse(this, dX, dY, dZ, dTiltX, dTiltY)
+
                 
         % @param {double 1x1} dVal - mm
-        setReticleCoarseX(this, dVal)
+        setXReticleCoarse(this, dVal)
            
         
         
         % @param {double 1x1} dVal - mm
-        setReticleCoarseY(this, dVal)
+        setYReticleCoarse(this, dVal)
             
         
         
         % @param {double 1x1} dVal - um
-        setReticleCoarseZ(this, dVal)
+        setZReticleCoarse(this, dVal)
             
         
         
         % @param {double 1x1} dVal - urad
-        setReticleCoarseTip(this, dVal)
+        setTiltXReticleCoarse(this, dVal)
             
         
         
         % @param {double 1x1} dVal - urad
-        setReticleCoarseTilt(this, dVal)
+        setTiltYReticleCoarse(this, dVal)
             
         
         
         
         % @param {double 1x1} dVal - um
-        setReticleFineX(this, dVal)
+        setXReticleFine(this, dVal)
             
         
         
         % @param {double 1x1} dVal - um
-        setReticleFineY(this, dVal)
+        setYReticleFine(this, dVal)
             
         
         
         
         % @param {double 1x1} dVal - mm
-        setLsiCoarseX(this, dVal)
+        setXLsiCoarse(this, dVal)
             
 
+        setMotMinWaferCoarseX(this, dVal)
+                
         
+        setMotMinWaferCoarseY(this, dVal)
+                
+        
+        setMotMinReticleCoarseX(this, dVal)
+        
+        setMotMinReticleCoarseY(this, dVal)
+        
+        setMotMinLsiCoarseX(this, dVal)
                 
 
         stopAll(this)

@@ -310,64 +310,64 @@ classdef PowerPmac < deltatau.PowerPmac
             d = this.queryDouble('Hydra3UMotMinNorm1');
         end
         
-        function l = getWaferCoarseXYZTipTiltStarted(this)
+        function l = getIsStartedWaferCoarseXYZTipTilt(this)
            cCmd = 'CS1Started';
            l = logical(this.queryInt32(cCmd));
            
         end
         
-        function l = getReticleCoarseXYZTipTiltStarted(this)
+        function l = getIsStartedReticleCoarseXYZTipTilt(this)
            cCmd = 'CS2Started';
            l = logical(this.queryInt32(cCmd));
         end
         
-        function l = getWaferFineZStarted(this)
+        function l = getIsStartedWaferFineZ(this)
            cCmd = 'CS3Started';
            l = logical(this.queryInt32(cCmd));
         end
         
-        function l = getReticleFineXYStarted(this)
+        function l = getIsStartedReticleFineXY(this)
            cCmd = 'CS4Started';
            l = logical(this.queryInt32(cCmd));
         end
         
-        function l = getLSICoarseXStarted(this)
+        function l = getIsStartedLsiCoarseX(this)
            cCmd = 'CS5Started';
            l = logical(this.queryInt32(cCmd));
         end
         
         % Returns mm
-        function d = getWaferCoarseX(this)
+        function d = getXWaferCoarse(this)
             cCmd = 'RepCS1X';
             d = this.queryDouble(cCmd);
         end
         
         % Returns mm
-        function d = getWaferCoarseY(this)
+        function d = getYWaferCoarse(this)
             cCmd = 'RepCS1Y';
             d = this.queryDouble(cCmd); 
         end
         
         % Returns um
-        function d = getWaferCoarseZ(this)
+        function d = getZWaferCoarse(this)
             cCmd = 'RepCS1Z';
             d = this.queryDouble(cCmd);
         end
         
         % Returns urad
-        function d = getWaferCoarseTip(this)
+        function d = getTiltXWaferCoarse(this)
             cCmd = 'RepCS1A';
             d = this.queryDouble(cCmd);
         end
         
         % Returns urad
-        function d = getWaferCoarseTilt(this)
+        function d = getTiltYWaferCoarse(this)
             cCmd = 'RepCS1B';
             d = this.queryDouble(cCmd);
         end
         
         % Returns um
-        function d = getWaferFineZ(this)
+        function d = getZWaferFine(this)
             cCmd = 'RepCS3Z';
             d = this.queryDouble(cCmd);
         end
@@ -459,25 +459,25 @@ classdef PowerPmac < deltatau.PowerPmac
         
         
         % Returns mm
-        function d = getReticleCoarseX(this)
+        function d = getXReticleCoarse(this)
             cCmd = 'RepCS2X';
             d = this.queryDouble(cCmd);
         end
         
         % Returns mm
-        function d = getReticleCoarseY(this)
+        function d = getYReticleCoarse(this)
             cCmd = 'RepCS2Y';
             d = this.queryDouble(cCmd);
         end
         
         % Returns um
-        function d = getReticleCoarseZ(this)
+        function d = getZReticleCoarse(this)
             cCmd = 'RepCS2Z';
             d = this.queryDouble(cCmd);
         end
         
         % Returns urad
-        function d = getReticleCoarseTip(this)
+        function d = getTiltXReticleCoarse(this)
             % tic
             cCmd = 'RepCS2A';
             d = this.queryDouble(cCmd);
@@ -485,19 +485,19 @@ classdef PowerPmac < deltatau.PowerPmac
         end
         
         % Returns urad
-        function d = getReticleCoarseTilt(this)
+        function d = getTiltYReticleCoarse(this)
             cCmd = 'RepCS2B';
             d = this.queryDouble(cCmd);
         end
         
         % Returns um
-        function d = getReticleFineX(this)
+        function d = getXReticleFine(this)
             cCmd = 'RepCS4X';
             d = this.queryDouble(cCmd);
         end
         
         % Returns um
-        function d = getReticleFineY(this)
+        function d = getYReticleFine(this)
             cCmd = 'RepCS4Y';
             d = this.queryDouble(cCmd);
         end
@@ -1356,9 +1356,53 @@ classdef PowerPmac < deltatau.PowerPmac
         % CommandCode=24 moves cs2 to destinations
             
         % Expire the cache for all sets
+        
+        
+        function setMotMinWaferCoarseX(this, dVal)
+                cCmd = sprintf('Hydra1UMotMinNorm1=%1.3f', dVal);
+                this.command(cCmd);
+                
+        end
+        
+        function setMotMinWaferCoarseY(this, dVal)
+                cCmd = sprintf('Hydra1UMotMinNorm2=%1.3f', dVal);
+                this.command(cCmd);
+                
+        end
+        
+        function setMotMinReticleCoarseX(this, dVal)
+            cCmd = sprintf('Hydra2UMotMinNorm1=%1.3f', dVal);
+                this.command(cCmd);
+        end
+        
+        function setMotMinReticleCoarseY(this, dVal)
+            
+                cCmd = sprintf('Hydra2UMotMinNorm2=%1.3f', dVal);
+                this.command(cCmd);  
+        end
+        
+        function setMotMinLsiCoarseX(this, dVal)
+            cCmd = sprintf('Hydra3UMotMinNorm1=%1.3f', dVal);
+                this.command(cCmd); 
+        end
+        
+        function setXYZTiltXTiltYWaferCoarse(this, dX, dY, dZ, dTiltX, dTiltY)
+            this.clearCache();
+            cCmd = {...
+               sprintf('DestCS1X=%1.6f;', dX), ...
+               sprintf('DestCS1Y=%1.6f;', dY), ...
+               sprintf('DestCS1Z=%1.6f;', dZ), ...
+               ... %sprintf('DestCS1A=%1.6f;', dTiltX), ...
+               ... %sprintf('DestCS1B=%1.6f;', dTiltY), ...
+               'CommandCode=14' ...
+            };
+            this.command(cCmd);
+        
+        end
+        
             
         % @param {double 1x1} dVal - mm
-        function setWaferCoarseX(this, dVal)
+        function setXWaferCoarse(this, dVal)
             this.clearCache();
             cCmd = sprintf('DestCS1X=%1.6f;', dVal);
            this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
@@ -1368,7 +1412,7 @@ classdef PowerPmac < deltatau.PowerPmac
         end
         
         % @param {double 1x1} dVal - mm
-        function setWaferCoarseY(this, dVal)
+        function setYWaferCoarse(this, dVal)
             this.clearCache();
             cCmd = sprintf('DestCS1Y=%1.6f;', dVal);
             this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
@@ -1377,7 +1421,7 @@ classdef PowerPmac < deltatau.PowerPmac
         end
         
         % @param {double 1x1} dVal - um
-        function setWaferCoarseZ(this, dVal)
+        function setZWaferCoarse(this, dVal)
             this.clearCache();
             cCmd = sprintf('DestCS1Z=%1.6f;', dVal);
            this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
@@ -1386,7 +1430,7 @@ classdef PowerPmac < deltatau.PowerPmac
         end
         
         % @param {double 1x1} dVal - urad
-        function setWaferCoarseTip(this, dVal)
+        function setTiltXWaferCoarse(this, dVal)
             this.clearCache();
             cCmd = sprintf('DestCS1A=%1.6f;', dVal);
             this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
@@ -1395,7 +1439,7 @@ classdef PowerPmac < deltatau.PowerPmac
         end
         
         % @param {double 1x1} dVal - urad
-        function setWaferCoarseTilt(this, dVal)
+        function setTiltYWaferCoarse(this, dVal)
             this.clearCache();
             cCmd = sprintf('DestCS1B=%1.6f;', dVal);
             this.command(['&1a;', 'CSxReady=-1;', cCmd, 'CommandCode=14']);
@@ -1404,16 +1448,32 @@ classdef PowerPmac < deltatau.PowerPmac
         end
         
         % @param {double 1x1} dVal - um
-        function setWaferFineZ(this, dVal)
+        function setZWaferFine(this, dVal)
             this.clearCache();
             cCmd = sprintf('DestCS3Z=%1.6f;', dVal);
             this.command(['&3a;', 'CSxReady=-1;', cCmd, 'CommandCode=34']);
             %this.command([cCmd, 'CommandCode=34']);
 
         end
+        
+        
+        function setXYZTiltXTiltYReticleCoarse(this, dX, dY, dZ, dTiltX, dTiltY)
+            this.clearCache();
+            cCmd = {...
+               sprintf('DestCS2X=%1.6f;', dX), ...
+               sprintf('DestCS2Y=%1.6f;', dY), ...
+               sprintf('DestCS2Z=%1.6f;', dZ), ...
+               ... %sprintf('DestCS2A=%1.6f;', dTiltX), ...
+               ... %sprintf('DestCS2B=%1.6f;', dTiltY), ...
+               'CommandCode=24' ...
+            };
+            this.command(cCmd);
+        
+        end
+   
                 
         % @param {double 1x1} dVal - mm
-        function setReticleCoarseX(this, dVal)
+        function setXReticleCoarse(this, dVal)
             this.clearCache();
            cCmd = sprintf('DestCS2X=%1.6f;', dVal);
            this.command(['&2a;', 'CSxReady=-1;', cCmd, 'CommandCode=24']);
@@ -1422,7 +1482,7 @@ classdef PowerPmac < deltatau.PowerPmac
         end
         
         % @param {double 1x1} dVal - mm
-        function setReticleCoarseY(this, dVal)
+        function setYReticleCoarse(this, dVal)
             this.clearCache();
             cCmd = sprintf('DestCS2Y=%1.6f;', dVal);
             this.command(['&2a;', 'CSxReady=-1;', cCmd, 'CommandCode=24']);
@@ -1431,7 +1491,7 @@ classdef PowerPmac < deltatau.PowerPmac
         end
         
         % @param {double 1x1} dVal - um
-        function setReticleCoarseZ(this, dVal)
+        function setZReticleCoarse(this, dVal)
             this.clearCache();
             cCmd = sprintf('DestCS2Z=%1.6f;', dVal);
             this.command(['&2a;', 'CSxReady=-1;', cCmd, 'CommandCode=24']);
@@ -1440,7 +1500,7 @@ classdef PowerPmac < deltatau.PowerPmac
         end
         
         % @param {double 1x1} dVal - urad
-        function setReticleCoarseTip(this, dVal)
+        function setTiltXReticleCoarse(this, dVal)
             this.clearCache();
             cCmd = sprintf('DestCS2A=%1.6f;', dVal);
             this.command(['&2a;', 'CSxReady=-1;', cCmd, 'CommandCode=24']);
@@ -1449,7 +1509,7 @@ classdef PowerPmac < deltatau.PowerPmac
         end
         
         % @param {double 1x1} dVal - urad
-        function setReticleCoarseTilt(this, dVal)
+        function setTiltYReticleCoarse(this, dVal)
             this.clearCache();
             cCmd = sprintf('DestCS2B=%1.6f;', dVal);
             this.command(['&2a;', 'CSxReady=-1;', cCmd, 'CommandCode=24']);
@@ -1459,7 +1519,7 @@ classdef PowerPmac < deltatau.PowerPmac
         
         
         % @param {double 1x1} dVal - um
-        function setReticleFineX(this, dVal)
+        function setXReticleFine(this, dVal)
             this.clearCache();
             cCmd = sprintf('DestCS4X=%1.6f;', dVal);
             this.command(['&4a;', 'CSxReady=-1;', cCmd, 'CommandCode=44']);
@@ -1467,7 +1527,7 @@ classdef PowerPmac < deltatau.PowerPmac
         end
         
         % @param {double 1x1} dVal - um
-        function setReticleFineY(this, dVal)
+        function setYReticleFine(this, dVal)
             this.clearCache();
             cCmd = sprintf('DestCS4Y=%1.6f;', dVal);
             this.command(['&4a;', 'CSxReady=-1;', cCmd, 'CommandCode=44']);
@@ -1476,7 +1536,7 @@ classdef PowerPmac < deltatau.PowerPmac
         
         
         % @param {double 1x1} dVal - mm
-        function setLsiCoarseX(this, dVal)
+        function setXLsiCoarse(this, dVal)
             this.clearCache();
             cCmd = sprintf('DestCS5X=%1.6f;', dVal);
             this.command(['&5a;', 'CSxReady=-1;', cCmd, 'CommandCode=54']);
