@@ -1557,6 +1557,12 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
         function d = queryDouble(this, cCmd)
             
             d = this.getAll();
+            
+            if length(d) ~= length(this.cecVariables)
+                d = 0;
+                return;
+            end
+            
             lMask = strcmp(this.cecVariables, cCmd);
             if ~any(lMask)
                 fprintf('+deltatau.PowerPmac.queryDouble %s not in cecVariables\n', cCmd);
