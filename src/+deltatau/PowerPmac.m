@@ -1342,7 +1342,21 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
             cCmd = 'PMACIOInfo';
             u32 = this.queryInt32(cCmd);
         end
-                        
+           
+        
+        %% Command Codes
+        
+        % @param {uint7=8 1x1} dVal - urad
+        function sendCommandCode(this, u8Val)
+            
+            if ~isa(u8Val, 'uint8')
+                error('u8Val must be uint8 data type');
+            end
+            
+            cCmd = sprintf('CommandCode=%d;', u8Val);
+            this.command(cCmd);
+
+        end
         %% Setters
         
         % &1a stops cs1, &2a stops cs2, etc. HOWEVER, stopping doordinate 

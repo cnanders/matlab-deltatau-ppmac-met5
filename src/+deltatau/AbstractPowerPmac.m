@@ -3,6 +3,8 @@ classdef AbstractPowerPmac < handle
     methods (Abstract)
         
         
+        sendCommandCode(this, u8Val)
+        
         % x, y, z (mm)
         % tiltX, tiltY (urad)
         setLocalWaferTransferPosition(this, dX, dY, dZ, dTiltX, dTiltY)

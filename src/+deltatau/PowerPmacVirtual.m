@@ -38,6 +38,11 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
     methods
         
         
+        function sendCommandCode(this, u8Val)
+            fprintf('deltatau.PowerPmacVirtual.sendCommandCode(%d)\n', u8Val);
+        end
+        
+        
         % x, y, z (mm)
         % tiltX, tiltY (urad)
         function setLocalWaferTransferPosition(this, dX, dY, dZ, dTiltX, dTiltY)
