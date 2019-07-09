@@ -17,6 +17,7 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
             'RepCS2B', ...
             ...
             'RepCS3Z', ...
+            'Sys.Fdata[4]', ... % new high-res wafer fine z
             'RepCS4X', ...
             'RepCS4Y', ...
             'RepCS5X', ...
@@ -108,8 +109,8 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
         dXWaferTransferPosition = -449 % mm
         dYWaferTransferPosition = 7
         dZWaferTransferPosition = -1 % mm
-        dTiltXWaferTransferPosition = 630; % urad (approx image tilt)
-        dTiltYWaferTransferPosition = -1600; % urad (approx image tilt)
+        dTiltXWaferTransferPosition = 1070; % pre e-chuck remove 630; % urad (approx image tilt)
+        dTiltYWaferTransferPosition = -2094; % pre e-chuck remove -1600; % urad (approx image tilt)
         
         dXReticleTransferPosition = 335
         dYReticleTransferPosition = 15.2
@@ -370,8 +371,9 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
         
         % Returns um
         function d = getZWaferFine(this)
-            cCmd = 'RepCS3Z';
-            d = this.queryDouble(cCmd);
+            % cCmd = 'RepCS3Z';
+            cCmd = 'Sys.Fdata[4]'; % returns um where the RepCS3Z returns mm
+            d = this.queryDouble(cCmd) / 1e3;
         end
         
         % Returns the voltage [-5 5] of the DeltaTau ACC20E 16-bit ADC board
