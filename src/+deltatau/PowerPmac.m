@@ -131,6 +131,8 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
                     this.(varargin{k}) = varargin{k + 1};
                 end
             end
+            
+            this.init();
         end
         
         % x, y, z (mm)
