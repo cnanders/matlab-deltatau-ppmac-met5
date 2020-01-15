@@ -87,7 +87,7 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
         dTimeout = 5
         
         ticGetVariables
-        tocMin = 0.2;
+        tocMin = 0.1;
         
         
         % storage for status data to serve if asked for 
