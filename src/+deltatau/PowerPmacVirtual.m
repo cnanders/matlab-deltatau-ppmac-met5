@@ -33,6 +33,12 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
         
         dXLsiCoarse;
         
+        dAccelWaferCoarse = 400;
+        dAccelReticleCoarse = 400;
+        
+        dDecelWaferCoarse = 400;
+        dDecelReticleCoarse = 400;
+        
     end
    
     methods
@@ -1131,6 +1137,37 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
         function stopAll(this)
             
             
+        end
+        
+        function setAccelOfWaferCoarse(this, dVal)
+            this.dAccelWaferCoarse = dVal;
+        end
+        % @param {double 1x1} time in milliseconds to reach max speed
+        function setAccelOfReticleCoarse(this, dVal)
+            this.dAccelReticleCoarse = dVal;
+        end
+        
+        function d = getAccelOfWaferCoarse(this)
+            d = this.dAccelWaferCoarse;
+        end
+        function d = getAccelOfReticleCoarse(this)
+            d = this.dAccelReticleCoarse;
+        end
+        
+        
+        function setDecelOfWaferCoarse(this, dVal)
+            this.dDecelWaferCoarse = dVal;
+        end
+        % @param {double 1x1} time in milliseconds to reach max speed
+        function setDecelOfReticleCoarse(this, dVal)
+            this.dDecelReticleCoarse = dVal;
+        end
+        
+        function d = getDecelOfWaferCoarse(this)
+            d = this.dDecelWaferCoarse;
+        end
+        function d = getDecelOfReticleCoarse(this)
+            d = this.dDecelReticleCoarse;
         end
         
         

@@ -53,6 +53,11 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
             'ActWorkingMode', ...
             'NewWorkingMode', ...
             ...
+            'DemandTACS1', ... accel
+            'DemandTACS2', ...
+            'DemandTSCS1', ... decel
+            'DemandTSCS2', ...
+            ...
             'Hydra1UMotMinNorm1', ...
             'Hydra1UMotMinNorm2', ...
             'Hydra2UMotMinNorm1', ...
@@ -1618,6 +1623,49 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
                 'CS5Started=0;' ...
             ];
             this.jDeltaTauComm.gpasciiCommand(cCmd);
+        end
+        
+        % @param {double 1x1} time in milliseconds to reach max speed
+        function setAccelOfWaferCoarse(this, dVal)
+            cCmd = sprintf('DemandTACS1=%1.0f', dVal);
+            this.command(cCmd);
+        end
+        % @param {double 1x1} time in milliseconds to reach max speed
+        function setAccelOfReticleCoarse(this, dVal)
+            cCmd = sprintf('DemandTACS2=%1.0f', dVal);
+            this.command(cCmd);
+            
+        end
+        
+        function d = getAccelOfWaferCoarse(this)
+            cCmd = 'DemandTACS1';
+            d = this.queryDouble(cCmd);
+        end
+        function d = getAccelOfReticleCoarse(this)
+            cCmd = 'DemandTACS2';
+            d = this.queryDouble(cCmd);
+            
+        end
+        
+        function setDecelOfWaferCoarse(this, dVal)
+            cCmd = sprintf('DemandTSCS1=%1.0f', dVal);
+            this.command(cCmd);
+        end
+        % @param {double 1x1} time in milliseconds to reach max speed
+        function setDecelOfReticleCoarse(this, dVal)
+            cCmd = sprintf('DemandTSCS2=%1.0f', dVal);
+            this.command(cCmd);
+            
+        end
+        
+        function d = getDecelOfWaferCoarse(this)
+            cCmd = 'DemandTSCS1';
+            d = this.queryDouble(cCmd);
+        end
+        function d = getDecelOfReticleCoarse(this)
+            cCmd = 'DemandTSCS2';
+            d = this.queryDouble(cCmd);
+            
         end
         
         

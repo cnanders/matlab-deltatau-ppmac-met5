@@ -895,6 +895,20 @@ classdef AbstractPowerPmac < handle
         stopAll(this)
         
         
+        setAccelOfWaferCoarse(this, dVal)
+        setAccelOfReticleCoarse(this, dVal)
+        
+        d = getAccelOfWaferCoarse(this)
+        d = getAccelOfReticleCoarse(this)
+        
+        
+        setDecelOfWaferCoarse(this, dVal)
+        setDecelOfReticleCoarse(this, dVal)
+        
+        d = getDecelOfWaferCoarse(this)
+        d = getDecelOfReticleCoarse(this)
+        
+        
     end
     
     
