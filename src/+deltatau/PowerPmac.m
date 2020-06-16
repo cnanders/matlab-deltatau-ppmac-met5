@@ -50,12 +50,16 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
             'Acc28E[3].ADCsData[2]', ...
             'Acc28E[3].ADCsData[3]', ...
             ...
+            'Motor[1].MaxSpeed', ...
+            'Motor[1].InvDmax', ...
+            'Motor[1].InvAmax', ...
+            ...
             'ActWorkingMode', ...
             'NewWorkingMode', ...
             ...
-            'DemandTACS1', ... accel
+            'DemandTACS1', ... 
             'DemandTACS2', ...
-            'DemandTSCS1', ... decel
+            'DemandTSCS1', ... 
             'DemandTSCS2', ...
             ...
             'Hydra1UMotMinNorm1', ...
@@ -1637,6 +1641,13 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
             
         end
         
+        
+        %{
+        Ta is the time for a normal (old-fashioned) acceleration
+Ts is the time for a (blended) acceleration (with S-shaped velocity profile) for smoother movements.
+If Ts > 2*Ta then only Ts matters.
+That’s why I recommended to focus on Ts.
+        %}
         function d = getAccelOfWaferCoarse(this)
             cCmd = 'DemandTACS1';
             d = this.queryDouble(cCmd);
@@ -1647,26 +1658,74 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
             
         end
         
-        function setDecelOfWaferCoarse(this, dVal)
+        function setAccelBlendedOfWaferCoarse(this, dVal)
             cCmd = sprintf('DemandTSCS1=%1.0f', dVal);
             this.command(cCmd);
         end
+        
         % @param {double 1x1} time in milliseconds to reach max speed
-        function setDecelOfReticleCoarse(this, dVal)
+        function setAccelBlendedOfReticleCoarse(this, dVal)
             cCmd = sprintf('DemandTSCS2=%1.0f', dVal);
             this.command(cCmd);
             
         end
         
-        function d = getDecelOfWaferCoarse(this)
+        function d = getAccelBlendedOfWaferCoarse(this)
             cCmd = 'DemandTSCS1';
             d = this.queryDouble(cCmd);
         end
-        function d = getDecelOfReticleCoarse(this)
+        function d = getAccelBlendedOfReticleCoarse(this)
             cCmd = 'DemandTSCS2';
             d = this.queryDouble(cCmd);
             
         end
+        
+        
+        
+        % units of accel are m/s/s
+        % Reasonable values are 
+        %  50 um/s/s, pass in 50e-6
+        %  250 um/s/s, pass in 250e-6
+        % under the hood, uses InvDmax, which is the inverse of this value
+        % and has units of s2/m
+        function setDecelMaxOfMotor(this, u8Motor, dVal)
+            cCmd = sprintf('Motor[%d].InvDmax=%1.0f', u8Motor, 1/dVal);
+            this.command(cCmd)
+        end
+        
+        % see above
+        function setAccelMaxOfMotor(this, u8Motor, dVal)
+            cCmd = sprintf('Motor[%d].InvAmax=%1.0f', u8Motor, 1/dVal);
+            this.command(cCmd)
+        end
+        
+        function d = getDecelMaxOfMotor(this, u8Motor)
+            cCmd = sprintf('Motor[%d].InvDmax', u8Motor);
+            d = this.queryDouble(cCmd); % units s2/m
+            d = 1/d;
+        end
+        
+        % see above
+        function d = getAccelMaxOfMotor(this, u8Motor)
+            cCmd = sprintf('Motor[%d].InvAmax', u8Motor);
+            d = this.queryDouble(cCmd); % units s2/m
+            d = 1/d;
+        end
+        
+        % units are m/s.  So a value like 0.02 is 20 mm/s
+        function setSpeedMaxOfMotor(this, u8Motor, dVal)
+            cCmd = sprintf('Motor[%d].MaxSpeed=%1.6f', u8Motor, dVal);
+            this.command(cCmd)
+        end
+        
+        function d = getSpeedMaxOfMotor(this, u8Motor)
+            cCmd = sprintf('Motor[%d].MaxSpeed', u8Motor);
+            d = this.queryDouble(cCmd); % units are m/s
+        end
+        
+        
+        
+        
         
         
     end

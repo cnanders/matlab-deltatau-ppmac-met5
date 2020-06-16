@@ -36,8 +36,12 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
         dAccelWaferCoarse = 400;
         dAccelReticleCoarse = 400;
         
-        dDecelWaferCoarse = 400;
-        dDecelReticleCoarse = 400;
+        dAccelBlendedWaferCoarse = 400;
+        dAccelBlendedReticleCoarse = 400;
+        
+        dInvAccelMaxOfMotor = [1/251e-6 1/252e-6]
+        dInvDecelMaxOfMotor = [1/151e-6 1/152e-6]
+        dSpeedMaxOfMotor = [51e-3 52e-3]
         
     end
    
@@ -1155,19 +1159,53 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
         end
         
         
-        function setDecelOfWaferCoarse(this, dVal)
-            this.dDecelWaferCoarse = dVal;
+        function setAccelBlendedOfWaferCoarse(this, dVal)
+            this.dAccelBlendedWaferCoarse = dVal;
         end
         % @param {double 1x1} time in milliseconds to reach max speed
-        function setDecelOfReticleCoarse(this, dVal)
-            this.dDecelReticleCoarse = dVal;
+        function setAccelBlendedOfReticleCoarse(this, dVal)
+            this.dAccelBlendedReticleCoarse = dVal;
         end
         
-        function d = getDecelOfWaferCoarse(this)
-            d = this.dDecelWaferCoarse;
+        function d = getAccelBlendedOfWaferCoarse(this)
+            d = this.dAccelBlendedWaferCoarse;
         end
-        function d = getDecelOfReticleCoarse(this)
-            d = this.dDecelReticleCoarse;
+        function d = getAccelBlendedOfReticleCoarse(this)
+            d = this.dAccelBlendedReticleCoarse;
+        end
+        
+        
+        % units of accel are m/s/s
+        % Reasonable values are 
+        %  50 um/s/s, pass in 50e-6
+        %  250 um/s/s, pass in 250e-6
+        % under the hood, uses InvDmax, which is the inverse of this value
+        % and has units of s2/m
+        function setDecelMaxOfMotor(this, u8Motor, dVal)
+            this.dInvDecelMaxOfMotor(u8Motor) = 1/dVal;
+        end
+        
+        % see above
+        function setAccelMaxOfMotor(this, u8Motor, dVal)
+            this.dInvAccelMaxOfMotor(u8Motor) = 1/dVal;
+        end
+        
+        function d = getDecelMaxOfMotor(this, u8Motor)
+            d = 1./this.dInvDecelMaxOfMotor(u8Motor);
+        end
+        
+        % see above
+        function d = getAccelMaxOfMotor(this, u8Motor)
+            d = 1./this.dInvAccelMaxOfMotor(u8Motor);
+        end
+        
+        % units are m/s.  So a value like 0.02 is 20 mm/s
+        function setSpeedMaxOfMotor(this, u8Motor, dVal)
+            this.dSpeedMaxOfMotor(u8Motor) = dVal;
+        end
+        
+        function d = getSpeedMaxOfMotor(this, u8Motor)
+            d = this.dSpeedMaxOfMotor(u8Motor);
         end
         
         
