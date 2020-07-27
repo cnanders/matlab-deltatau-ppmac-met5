@@ -1658,6 +1658,7 @@ That’s why I recommended to focus on Ts.
             
         end
         
+        % @param {double 1x1} time in milliseconds to reach max speed
         function setAccelBlendedOfWaferCoarse(this, dVal)
             cCmd = sprintf('DemandTSCS1=%1.0f', dVal);
             this.command(cCmd);
@@ -1677,15 +1678,14 @@ That’s why I recommended to focus on Ts.
         function d = getAccelBlendedOfReticleCoarse(this)
             cCmd = 'DemandTSCS2';
             d = this.queryDouble(cCmd);
-            
         end
         
         
         
-        % units of accel are m/s/s
+        % Units of accel are mm/ms/ms
         % Reasonable values are 
-        %  50 um/s/s, pass in 50e-6
-        %  250 um/s/s, pass in 250e-6
+        %  5 mm/s/s, which is 5e-6 mm/ms/ms 
+        %  20 mm/s/s, pass in 20e-6 mm/ms/ms
         % under the hood, uses InvDmax, which is the inverse of this value
         % and has units of s2/m
         function setDecelMaxOfMotor(this, u8Motor, dVal)
