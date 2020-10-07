@@ -31,7 +31,7 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
         dXReticleFine = 0
         dYReticleFine = 0
         
-        dXLsiCoarse;
+        dXLsiCoarse = 450;
         
         dAccelWaferCoarse = 400;
         dAccelReticleCoarse = 400;
