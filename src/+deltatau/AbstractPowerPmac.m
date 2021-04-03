@@ -895,17 +895,17 @@ classdef AbstractPowerPmac < handle
         stopAll(this)
         
         
-        setAccelOfWaferCoarse(this, dVal)
-        setAccelOfReticleCoarse(this, dVal)
+        setDemandAccelTimeWaferCoarse(this, dVal)
+        setDemandAccelTimeReticleCoarse(this, dVal)
         
-        d = getAccelOfWaferCoarse(this)
-        d = getAccelOfReticleCoarse(this)
+        d = getDemandAccelTimeWaferCoarse(this)
+        d = getDemandAccelTimeReticleCoarse(this)
         
-        setAccelBlendedOfWaferCoarse(this, dVal)
-        setAccelBlendedOfReticleCoarse(this, dVal)
+        setDemandAccelTimeBlendedWaferCoarse(this, dVal)
+        setDemandAccelTimeBlendedReticleCoarse(this, dVal)
         
-        d = getAccelBlendedOfWaferCoarse(this)
-        d = getAccelBlendedOfReticleCoarse(this)
+        d = getDemandAccelTimeBlendedWaferCoarse(this)
+        d = getDemandAccelTimeBlendedReticleCoarse(this)
         
         setDecelMaxOfMotor(this, u8Motor, dVal)
         setAccelMaxOfMotor(this, u8Motor, dVal)

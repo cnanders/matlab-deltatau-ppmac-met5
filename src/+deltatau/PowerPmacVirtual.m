@@ -39,9 +39,20 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
         dAccelBlendedWaferCoarse = 400;
         dAccelBlendedReticleCoarse = 400;
         
+        dDemandSpeedWaferCoarse = 98
+        dDemandSpeedReticleCoarse = 99
+        
         dInvAccelMaxOfMotor = [1/251e-6 1/252e-6]
         dInvDecelMaxOfMotor = [1/151e-6 1/152e-6]
         dSpeedMaxOfMotor = [51e-3 52e-3]
+        
+        
+        dVelHydraWaferX = 24;
+        dVelHydraWaferY = 24
+        dAccelHydraWaferX = 996
+        dAccelHydraWaferY = 997
+        dDecelHydraWaferX = 998
+        dDecelHydraWaferY = 999
         
     end
    
@@ -1143,34 +1154,34 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
             
         end
         
-        function setAccelOfWaferCoarse(this, dVal)
+        function setDemandAccelTimeWaferCoarse(this, dVal)
             this.dAccelWaferCoarse = dVal;
         end
         % @param {double 1x1} time in milliseconds to reach max speed
-        function setAccelOfReticleCoarse(this, dVal)
+        function setDemandAccelTimeReticleCoarse(this, dVal)
             this.dAccelReticleCoarse = dVal;
         end
         
-        function d = getAccelOfWaferCoarse(this)
+        function d = getDemandAccelTimeWaferCoarse(this)
             d = this.dAccelWaferCoarse;
         end
-        function d = getAccelOfReticleCoarse(this)
+        function d = getDemandAccelTimeReticleCoarse(this)
             d = this.dAccelReticleCoarse;
         end
         
         
-        function setAccelBlendedOfWaferCoarse(this, dVal)
+        function setDemandAccelTimeBlendedWaferCoarse(this, dVal)
             this.dAccelBlendedWaferCoarse = dVal;
         end
         % @param {double 1x1} time in milliseconds to reach max speed
-        function setAccelBlendedOfReticleCoarse(this, dVal)
+        function setDemandAccelTimeBlendedReticleCoarse(this, dVal)
             this.dAccelBlendedReticleCoarse = dVal;
         end
         
-        function d = getAccelBlendedOfWaferCoarse(this)
+        function d = getDemandAccelTimeBlendedWaferCoarse(this)
             d = this.dAccelBlendedWaferCoarse;
         end
-        function d = getAccelBlendedOfReticleCoarse(this)
+        function d = getDemandAccelTimeBlendedReticleCoarse(this)
             d = this.dAccelBlendedReticleCoarse;
         end
         
@@ -1207,6 +1218,77 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
         function d = getSpeedMaxOfMotor(this, u8Motor)
             d = this.dSpeedMaxOfMotor(u8Motor);
         end
+        
+        %%%
+        
+        function d = getVelHydraWaferX(this)
+            d = this.dVelHydraWaferX;
+        end
+        
+        function d = getVelHydraWaferY(this)
+            d = this.dVelHydraWaferY;
+        end
+        
+        function d = getAccelHydraWaferX(this)
+            d = this.dAccelHydraWaferX;
+        end
+        
+        function d = getAccelHydraWaferY(this)
+            d = this.dAccelHydraWaferY;
+        end
+        
+        function d = getDecelHydraWaferX(this)
+            d = this.dDecelHydraWaferX;
+        end
+        
+        function d = getDecelHydraWaferY(this)
+            d = this.dDecelHydraWaferY;
+        end
+        
+        %% Set
+        
+        function setVelHydraWaferX(this, dVal)
+            this.dVelHydraWaferX = dVal;
+        end
+        
+        function setVelHydraWaferY(this, dVal)
+            this.dVelHydraWaferY = dVal;
+        end
+        
+        function setAccelHydraWaferX(this, dVal)
+            this.dAccelHydraWaferX = dVal;
+        end
+        
+        function setAccelHydraWaferY(this, dVal)
+            this.dAccelHydraWaferY = dVal;
+        end
+        
+        function setDecelHydraWaferX(this, dVal)
+            this.dDecelHydraWaferX = dVal;
+        end
+        
+        function setDecelHydraWaferY(this, dVal)
+            this.dDecelHydraWaferY = dVal;
+        end
+        
+        
+        function d = getDemandSpeedWaferCoarse(this)
+            d = this.dDemandSpeedWaferCoarse;
+        end
+        
+        function d = getDemandSpeedReticleCoarse(this)
+            d = this.dDemandSpeedReticleCoarse;
+        end
+        
+        function setDemandSpeedWaferCoarse(this, dVal)
+            this.dDemandSpeedWaferCoarse = dVal;
+        end
+        function setDemandSpeedReticleCoarse(this, dVal)
+            this.dDemandSpeedReticleCoarse = dVal;
+            
+        end
+        
+
         
         
     end

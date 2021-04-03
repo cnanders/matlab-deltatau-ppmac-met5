@@ -60,6 +60,8 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
             'ActWorkingMode', ...
             'NewWorkingMode', ...
             ...
+            'DemandSpeedCS1', ...
+            'DemandSpeedCS2', ...
             'DemandTACS1', ... 
             'DemandTACS2', ...
             'DemandTSCS1', ... 
@@ -69,7 +71,17 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
             'Hydra1UMotMinNorm2', ...
             'Hydra2UMotMinNorm1', ...
             'Hydra2UMotMinNorm2', ...
-            'Hydra3UMotMinNorm1' ...
+            'Hydra3UMotMinNorm1', ...
+            ...
+            'Hydra1Vel1', ...
+            'Hydra1Vel2', ...
+            'Hydra1Accel1', ...
+            'Hydra1Accel2', ...
+            'Hydra1StopDecel1', ...
+            'Hydra1StopDecel2', ...
+            
+            
+            
         };
         
         
@@ -1633,12 +1645,12 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
         end
         
         % @param {double 1x1} time in milliseconds to reach max speed
-        function setAccelOfWaferCoarse(this, dVal)
+        function setDemandAccelTimeWaferCoarse(this, dVal)
             cCmd = sprintf('DemandTACS1=%1.0f', dVal);
             this.command(cCmd);
         end
         % @param {double 1x1} time in milliseconds to reach max speed
-        function setAccelOfReticleCoarse(this, dVal)
+        function setDemandAccelTimeReticleCoarse(this, dVal)
             cCmd = sprintf('DemandTACS2=%1.0f', dVal);
             this.command(cCmd);
             
@@ -1649,40 +1661,142 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
         Ta is the time for a normal (old-fashioned) acceleration
 Ts is the time for a (blended) acceleration (with S-shaped velocity profile) for smoother movements.
 If Ts > 2*Ta then only Ts matters.
-That’s why I recommended to focus on Ts.
+Thatï¿½s why I recommended to focus on Ts.
         %}
-        function d = getAccelOfWaferCoarse(this)
+        function d = getDemandAccelTimeWaferCoarse(this)
             cCmd = 'DemandTACS1';
             d = this.queryDouble(cCmd);
         end
-        function d = getAccelOfReticleCoarse(this)
+        function d = getDemandAccelTimeReticleCoarse(this)
             cCmd = 'DemandTACS2';
             d = this.queryDouble(cCmd);
             
         end
         
+        function d = getDemandSpeedWaferCoarse(this)
+            cCmd = 'DemandSpeedCS1';
+            d = this.queryDouble(cCmd);
+        end
+        
+        function d = getDemandSpeedReticleCoarse(this)
+            cCmd = 'DemandSpeedCS2';
+            d = this.queryDouble(cCmd);
+        end
+        
+        function setDemandSpeedWaferCoarse(this, dVal)
+            cCmd = sprintf('DemandSpeedCS1=%1.3f', dVal);
+            this.command(cCmd);
+        end
+        function setDemandSpeedReticleCoarse(this, dVal)
+            cCmd = sprintf('DemandSpeedCS2=%1.3f', dVal);
+            this.command(cCmd);
+            
+        end
+        
+        
+        
         % @param {double 1x1} time in milliseconds to reach max speed
-        function setAccelBlendedOfWaferCoarse(this, dVal)
+        function setDemandAccelTimeBlendedWaferCoarse(this, dVal)
             cCmd = sprintf('DemandTSCS1=%1.0f', dVal);
             this.command(cCmd);
         end
         
         % @param {double 1x1} time in milliseconds to reach max speed
-        function setAccelBlendedOfReticleCoarse(this, dVal)
+        function setDemandAccelTimeBlendedReticleCoarse(this, dVal)
             cCmd = sprintf('DemandTSCS2=%1.0f', dVal);
             this.command(cCmd);
             
         end
         
-        function d = getAccelBlendedOfWaferCoarse(this)
+        function d = getDemandAccelTimeBlendedWaferCoarse(this)
             cCmd = 'DemandTSCS1';
             d = this.queryDouble(cCmd);
         end
-        function d = getAccelBlendedOfReticleCoarse(this)
+        function d = getDemandAccelTimeBlendedReticleCoarse(this)
             cCmd = 'DemandTSCS2';
             d = this.queryDouble(cCmd);
         end
         
+        
+        function d = getVelHydraWaferX(this)
+            cCmd = 'Hydra1Vel1';
+            d = this.queryDouble(cCmd);
+        end
+        
+        function d = getVelHydraWaferY(this)
+            cCmd = 'Hydra1Vel2';
+            d = this.queryDouble(cCmd);
+        end
+        
+        function d = getAccelHydraWaferX(this)
+            cCmd = 'Hydra1Accel1';
+            d = this.queryDouble(cCmd);
+        end
+        
+        function d = getAccelHydraWaferY(this)
+            cCmd = 'Hydra1Accel2';
+            d = this.queryDouble(cCmd);
+        end
+        
+        function d = getDecelHydraWaferX(this)
+            cCmd = 'Hydra1StopDecel1';
+            d = this.queryDouble(cCmd);
+        end
+        
+        function d = getDecelHydraWaferY(this)
+            cCmd = 'Hydra1StopDecel2';
+            d = this.queryDouble(cCmd);
+        end
+        
+        %% Set hydra through the PPMAC
+        
+        function setVelHydraWaferX(this, dVal)            
+            cCmd = [...
+             sprintf('Hydra1Vel1Send=%1.3f;', dVal), ...
+             'Hydra1Command=41;' ...
+            ];
+            this.command(cCmd);
+        end
+        
+        function setVelHydraWaferY(this, dVal)
+            cCmd = [...
+             sprintf('Hydra1Vel2Send=%1.3f;', dVal), ...
+             'Hydra1Command=42;' ...
+            ];
+            this.command(cCmd);
+        end
+        
+        function setAccelHydraWaferX(this, dVal)
+            cCmd = [...
+             sprintf('Hydra1Accel1Send=%1.3f;', dVal), ...
+             'Hydra1Command=43;' ...
+            ];
+            this.command(cCmd);
+        end
+        
+        function setAccelHydraWaferY(this, dVal)
+            cCmd = [...
+             sprintf('Hydra1Accel2Send=%1.3f;', dVal), ...
+             'Hydra1Command=44;' ...
+            ];
+            this.command(cCmd);
+        end
+        
+        function setDecelHydraWaferX(this, dVal)
+            cCmd = [...
+             sprintf('Hydra1StopDecel1Send=%1.3f;', dVal), ...
+             'Hydra1Command=45;' ...
+            ];
+            this.command(cCmd);
+        end
+        
+        function setDecelHydraWaferY(this, dVal)
+            cCmd = [...
+             sprintf('Hydra1StopDecel2Send=%1.3f;', dVal), ...
+             'Hydra1Command=46;' ...
+            ];
+            this.command(cCmd);
+        end
         
         
         % Units of accel are mm/ms/ms
