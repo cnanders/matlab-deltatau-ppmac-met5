@@ -1,3 +1,4 @@
+
 classdef AbstractPowerPmac < handle
         
     methods (Abstract)
@@ -895,17 +896,7 @@ classdef AbstractPowerPmac < handle
         stopAll(this)
         
         
-        setDemandAccelTimeWaferCoarse(this, dVal)
-        setDemandAccelTimeReticleCoarse(this, dVal)
-        
-        d = getDemandAccelTimeWaferCoarse(this)
-        d = getDemandAccelTimeReticleCoarse(this)
-        
-        setDemandAccelTimeBlendedWaferCoarse(this, dVal)
-        setDemandAccelTimeBlendedReticleCoarse(this, dVal)
-        
-        d = getDemandAccelTimeBlendedWaferCoarse(this)
-        d = getDemandAccelTimeBlendedReticleCoarse(this)
+       
         
         setDecelMaxOfMotor(this, u8Motor, dVal)
         setAccelMaxOfMotor(this, u8Motor, dVal)
@@ -914,6 +905,31 @@ classdef AbstractPowerPmac < handle
         
         setSpeedMaxOfMotor(this, u8Motor, dVal)
         d = getSpeedMaxOfMotor(this, u8Motor)
+        
+        
+        
+        
+        d = getDemandSpeedReticleFine(this)
+        setDemandSpeedReticleFine(this, dVal)
+        d = getDemandAccelTimeBlendedReticleFine(this)
+        setDemandAccelTimeBlendedReticleFine(this, dVal)
+        d = getDemandAccelTimeReticleFine(this)
+        setDemandAccelTimeReticleFine(this, dVal)
+        
+        d = getDemandSpeedReticleCoarse(this)
+        setDemandSpeedReticleCoarse(this, dVal)
+        d = getDemandAccelTimeBlendedReticleCoarse(this)
+        setDemandAccelTimeBlendedReticleCoarse(this, dVal)
+        d = getDemandAccelTimeReticleCoarse(this)
+        setDemandAccelTimeReticleCoarse(this, dVal)
+        
+        d = getDemandSpeedWaferCoarse(this)
+        setDemandSpeedWaferCoarse(this, dVal)
+        d = getDemandAccelTimeBlendedWaferCoarse(this)
+        setDemandAccelTimeBlendedWaferCoarse(this, dVal)
+        d = getDemandAccelTimeWaferCoarse(this)
+        setDemandAccelTimeWaferCoarse(this, dVal)
+            
         
         
         

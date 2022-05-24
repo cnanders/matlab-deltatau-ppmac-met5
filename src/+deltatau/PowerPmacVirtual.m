@@ -35,12 +35,15 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
         
         dAccelWaferCoarse = 400;
         dAccelReticleCoarse = 400;
+        dAccelReticleFine = 300;
         
         dAccelBlendedWaferCoarse = 400;
         dAccelBlendedReticleCoarse = 400;
+        dAccelBlendedReticleFine = 301;
         
         dDemandSpeedWaferCoarse = 98
         dDemandSpeedReticleCoarse = 99
+        dDemandSpeedReticleFine = 97;
         
         dInvAccelMaxOfMotor = [1/251e-6 1/252e-6]
         dInvDecelMaxOfMotor = [1/151e-6 1/152e-6]
@@ -1154,38 +1157,97 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
             
         end
         
-        function setDemandAccelTimeWaferCoarse(this, dVal)
-            this.dAccelWaferCoarse = dVal;
+        % Reticle Fine
+        
+        function d = getDemandSpeedReticleFine(this)
+            d = this.dDemandSpeedReticleFine;
         end
+        
+        function setDemandSpeedReticleFine(this, dVal)
+            this.dDemandSpeedReticleFine = dVal;
+        end
+        
         % @param {double 1x1} time in milliseconds to reach max speed
-        function setDemandAccelTimeReticleCoarse(this, dVal)
-            this.dAccelReticleCoarse = dVal;
+        function setDemandAccelTimeBlendedReticleFine(this, dVal)
+            this.dAccelBlendedReticleFine = dVal;
         end
+        
+        function d = getDemandAccelTimeBlendedReticleFine(this)
+            d = this.dAccelBlendedReticleFine;
+        end
+        
+         function d = getDemandAccelTimeReticleFine(this)
+            d = this.dAccelReticleFine;
+        end
+        function setDemandAccelTimeReticleFine(this, dVal)
+            this.dAccelReticleFine = dVal;
+        end
+        
+        
+        
+        
+        
+        
+        % Wafer Coarse
+        
+        function d = getDemandSpeedWaferCoarse(this)
+            d = this.dDemandSpeedWaferCoarse;
+        end
+        
+              
+        function setDemandSpeedWaferCoarse(this, dVal)
+            this.dDemandSpeedWaferCoarse = dVal;
+        end
+        
+        
+        function d = getDemandAccelTimeBlendedWaferCoarse(this)
+            d = this.dAccelBlendedWaferCoarse;
+        end
+        function setDemandAccelTimeBlendedWaferCoarse(this, dVal)
+            this.dAccelBlendedWaferCoarse = dVal;
+        end
+        
         
         function d = getDemandAccelTimeWaferCoarse(this)
             d = this.dAccelWaferCoarse;
         end
+        
+        function setDemandAccelTimeWaferCoarse(this, dVal)
+            this.dAccelWaferCoarse = dVal;
+        end
+        
+        
+        % Reticle Coarse
+        
+         function d = getDemandSpeedReticleCoarse(this)
+            d = this.dDemandSpeedReticleCoarse;
+         end
+        
+        function setDemandSpeedReticleCoarse(this, dVal)
+            this.dDemandSpeedReticleCoarse = dVal;    
+        end
+        
+        
+        % @param {double 1x1} time in milliseconds to reach max speed
+        function setDemandAccelTimeReticleCoarse(this, dVal)
+            this.dAccelReticleCoarse = dVal;
+        end
+              
         function d = getDemandAccelTimeReticleCoarse(this)
             d = this.dAccelReticleCoarse;
         end
+              
         
-        
-        function setDemandAccelTimeBlendedWaferCoarse(this, dVal)
-            this.dAccelBlendedWaferCoarse = dVal;
-        end
         % @param {double 1x1} time in milliseconds to reach max speed
         function setDemandAccelTimeBlendedReticleCoarse(this, dVal)
             this.dAccelBlendedReticleCoarse = dVal;
         end
         
-        function d = getDemandAccelTimeBlendedWaferCoarse(this)
-            d = this.dAccelBlendedWaferCoarse;
-        end
         function d = getDemandAccelTimeBlendedReticleCoarse(this)
             d = this.dAccelBlendedReticleCoarse;
         end
         
-        
+       
         % units of accel are m/s/s
         % Reasonable values are 
         %  50 um/s/s, pass in 50e-6
@@ -1272,21 +1334,11 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
         end
         
         
-        function d = getDemandSpeedWaferCoarse(this)
-            d = this.dDemandSpeedWaferCoarse;
-        end
+
         
-        function d = getDemandSpeedReticleCoarse(this)
-            d = this.dDemandSpeedReticleCoarse;
-        end
         
-        function setDemandSpeedWaferCoarse(this, dVal)
-            this.dDemandSpeedWaferCoarse = dVal;
-        end
-        function setDemandSpeedReticleCoarse(this, dVal)
-            this.dDemandSpeedReticleCoarse = dVal;
-            
-        end
+        
+        
         
 
         

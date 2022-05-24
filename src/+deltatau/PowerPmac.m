@@ -61,11 +61,16 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
             'NewWorkingMode', ...
             ...
             'DemandSpeedCS1', ...
-            'DemandSpeedCS2', ...
             'DemandTACS1', ... 
-            'DemandTACS2', ...
             'DemandTSCS1', ... 
+            ...
+            'DemandSpeedCS2', ...
+            'DemandTACS2', ...
             'DemandTSCS2', ...
+            ...
+            'DemandSpeedCS4', ...
+            'DemandTACS4', ... 
+            'DemandTSCS4', ... 
             ...
             'Hydra1UMotMinNorm1', ...
             'Hydra1UMotMinNorm2', ...
@@ -79,9 +84,6 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
             'Hydra1Accel2', ...
             'Hydra1StopDecel1', ...
             'Hydra1StopDecel2', ...
-            
-            
-            
         };
         
         
@@ -1657,21 +1659,65 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
         end
         
         
+        
+        
         %{
         Ta is the time for a normal (old-fashioned) acceleration
 Ts is the time for a (blended) acceleration (with S-shaped velocity profile) for smoother movements.
 If Ts > 2*Ta then only Ts matters.
 That�s why I recommended to focus on Ts.
         %}
+        
+        
+        function d = getDemandSpeedReticleFine(this)
+            cCmd = 'DemandSpeedCS4';
+            d = this.queryDouble(cCmd);
+        end
+        
+        function setDemandSpeedReticleFine(this, dVal)
+            cCmd = sprintf('DemandSpeedCS4=%1.3f', dVal);
+            this.command(cCmd);
+        end
+        
+                
+        function d = getDemandAccelTimeReticleFine(this)
+            cCmd = 'DemandTACS4';
+            d = this.queryDouble(cCmd);
+        end
+                
+        % @param {double 1x1} time in milliseconds to reach max speed
+        function setDemandAccelTimeReticleFine(this, dVal)
+            cCmd = sprintf('DemandTACS4=%1.0f', dVal);
+            this.command(cCmd);
+        end
+        
+        
+        % BLENDED is TS
+        
+        function d = getDemandAccelTimeBlendedReticleFine(this)
+            cCmd = 'DemandTSCS4';
+            d = this.queryDouble(cCmd);
+        end
+        
+        % @param {double 1x1} time in milliseconds to reach max speed
+        function setDemandAccelTimeBlendedReticleFine(this, dVal)
+            cCmd = sprintf('DemandTSCS4=%1.0f', dVal);
+            this.command(cCmd);
+        end
+        
+        
+        
         function d = getDemandAccelTimeWaferCoarse(this)
             cCmd = 'DemandTACS1';
             d = this.queryDouble(cCmd);
         end
+        
         function d = getDemandAccelTimeReticleCoarse(this)
             cCmd = 'DemandTACS2';
             d = this.queryDouble(cCmd);
             
         end
+        
         
         function d = getDemandSpeedWaferCoarse(this)
             cCmd = 'DemandSpeedCS1';
@@ -1683,6 +1729,10 @@ That�s why I recommended to focus on Ts.
             d = this.queryDouble(cCmd);
         end
         
+        
+        
+                % Units are mm/s
+
         function setDemandSpeedWaferCoarse(this, dVal)
             cCmd = sprintf('DemandSpeedCS1=%1.3f', dVal);
             this.command(cCmd);
@@ -1692,6 +1742,8 @@ That�s why I recommended to focus on Ts.
             this.command(cCmd);
             
         end
+        
+        
         
         
         
