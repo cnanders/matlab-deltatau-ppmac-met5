@@ -33,17 +33,19 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
         
         dXLsiCoarse = 450;
         
-        dAccelWaferCoarse = 400;
-        dAccelReticleCoarse = 400;
-        dAccelReticleFine = 300;
-        
-        dAccelBlendedWaferCoarse = 400;
-        dAccelBlendedReticleCoarse = 400;
-        dAccelBlendedReticleFine = 301;
         
         dDemandSpeedWaferCoarse = 98
+        dAccelWaferCoarse = 400;
+        dAccelBlendedWaferCoarse = 400;
+
         dDemandSpeedReticleCoarse = 99
+        dAccelReticleCoarse = 400;
+        dAccelBlendedReticleCoarse = 400;
+        
         dDemandSpeedReticleFine = 97;
+        dAccelReticleFine = 300;
+        dAccelBlendedReticleFine = 301;
+        
         
         dInvAccelMaxOfMotor = [1/251e-6 1/252e-6]
         dInvDecelMaxOfMotor = [1/151e-6 1/152e-6]

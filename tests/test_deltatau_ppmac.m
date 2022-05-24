@@ -22,72 +22,36 @@ try
     ppmac = deltatau.PowerPmac(...
         'cHostname', cHostname ...
     );
-    ppmac.init();
 catch mE
-    getAllVariablesort(mE);
-    
+   mE;
 end
 
-tic
-ppmac.getReticleCoarseX();
-ppmac.getReticleCoarseY();
-ppmac.getReticleCoarseZ();
-ppmac.getReticleCoarseTip();
-ppmac.getReticleCoarseTilt();
-ppmac.getWaferCoarseX();
-ppmac.getWaferCoarseY();
-ppmac.getWaferCoarseZ();
-ppmac.getWaferCoarseTip();
-ppmac.getWaferCoarseTilt();
-ppmac.getVoltageReticleCap1();
-ppmac.getVoltageReticleCap2();
-ppmac.getVoltageReticleCap3();
-ppmac.getVoltageReticleCap4();
-toc
 
-pause(2)
+ppmac.getXReticleCoarse()
+ppmac.getYReticleCoarse()
+ppmac.getZReticleCoarse()
+ppmac.getTiltXReticleCoarse()
+ppmac.getTiltYReticleCoarse()
+ppmac.getXWaferCoarse()
+ppmac.getYWaferCoarse()
+ppmac.getZWaferCoarse()
+ppmac.getTiltXWaferCoarse()
+ppmac.getTiltYWaferCoarse()
+ppmac.getVoltageReticleCap1()
+ppmac.getVoltageReticleCap2()
+ppmac.getVoltageReticleCap3()
+ppmac.getVoltageReticleCap4()
 
-tic
-ppmac.getReticleCoarseX();
-ppmac.getReticleCoarseY();
-ppmac.getReticleCoarseZ();
-ppmac.getReticleCoarseTip();
-ppmac.getReticleCoarseTilt();
-ppmac.getWaferCoarseX();
-ppmac.getWaferCoarseY();
-ppmac.getWaferCoarseZ();
-ppmac.getWaferCoarseTip();
-ppmac.getWaferCoarseTilt();
-ppmac.getVoltageReticleCap1();
-ppmac.getVoltageReticleCap2();
-ppmac.getVoltageReticleCap3();
-ppmac.getVoltageReticleCap4();
-toc
+disp('reticle fine');
+ppmac.getDemandSpeedReticleFine()
+ppmac.getDemandAccelTimeReticleFine()
+ppmac.getDemandAccelTimeBlendedReticleFine()
 
-pause(2)
 
-tic
-ppmac.getReticleCoarseX();
-ppmac.getReticleCoarseY();
-ppmac.getReticleCoarseZ();
-ppmac.getReticleCoarseTip();
-ppmac.getReticleCoarseTilt();
-ppmac.getWaferCoarseX();
-ppmac.getWaferCoarseY();
-ppmac.getWaferCoarseZ();
-ppmac.getWaferCoarseTip();
-ppmac.getWaferCoarseTilt();
-ppmac.getVoltageReticleCap1();
-ppmac.getVoltageReticleCap2();
-ppmac.getVoltageReticleCap3();
-ppmac.getVoltageReticleCap4();
-toc
-
-pause(2)
-
-tic
-ppmac.getAll();
-toc
+disp('wafer coarse');
+ppmac.getDemandSpeedWaferCoarse()
+ppmac.getDemandAccelTimeWaferCoarse()
+ppmac.getDemandAccelTimeBlendedWaferCoarse()
 
 
 %{
