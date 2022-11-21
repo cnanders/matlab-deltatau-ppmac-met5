@@ -1112,6 +1112,20 @@ classdef PowerPmacVirtual < deltatau.AbstractPowerPmac
             this.dTiltYReticleCoarse = dVal;
         end
         
+        function moveReticleFineToDest(this)
+            
+        end
+        
+        % @param {double 1x1} dVal - um
+        function setXReticleFineNoMove(this, dVal)
+            this.dXReticleFine = dVal;
+        end
+        
+        
+        % @param {double 1x1} dVal - um
+        function setYReticleFineNoMove(this, dVal)
+            this.dYReticleFine = dVal;
+        end
         
         % @param {double 1x1} dVal - um
         function setXReticleFine(this, dVal)

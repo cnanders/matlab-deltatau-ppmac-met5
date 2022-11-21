@@ -1564,7 +1564,28 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
         end
         
         
-        % @param {double 1x1} dVal - um
+        function moveReticleFineToDest(this)
+            this.command(['&4a;', 'CSxReady=-1;', 'CommandCode=44']);
+        end
+        
+        % @param {double 1x1} dVal - mm
+        function setXReticleFineNoMove(this, dVal)
+            this.clearCache();
+            cCmd = sprintf('DestCS4X=%1.6f;', dVal);
+            this.command([cCmd]);
+            % this.command([cCmd, 'CommandCode=44']);
+        end
+        
+        % @param {double 1x1} dVal - mm
+        function setYReticleFineNoMove(this, dVal)
+            this.clearCache();
+            cCmd = sprintf('DestCS4Y=%1.6f;', dVal);
+            this.command([cCmd]);
+            % this.command([cCmd, 'CommandCode=44']);
+        end
+        
+        
+        % @param {double 1x1} dVal - mm
         function setXReticleFine(this, dVal)
             this.clearCache();
             cCmd = sprintf('DestCS4X=%1.6f;', dVal);
@@ -1572,7 +1593,7 @@ classdef PowerPmac < deltatau.AbstractPowerPmac
             % this.command([cCmd, 'CommandCode=44']);
         end
         
-        % @param {double 1x1} dVal - um
+        % @param {double 1x1} dVal - mm
         function setYReticleFine(this, dVal)
             this.clearCache();
             cCmd = sprintf('DestCS4Y=%1.6f;', dVal);
@@ -1675,7 +1696,7 @@ That�s why I recommended to focus on Ts.
         end
         
         function setDemandSpeedReticleFine(this, dVal)
-            cCmd = sprintf('DemandSpeedCS4=%1.3f', dVal);
+            cCmd = sprintf('DemandSpeedCS4=%1.9f', dVal);
             this.command(cCmd);
         end
         
